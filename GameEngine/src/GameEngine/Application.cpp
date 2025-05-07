@@ -1,5 +1,6 @@
-#include "Application.h"
+#include "hzpch.h"
 
+#include "Application.h"
 #include "GameEngine/Events/ApplicationEvent.h"
 #include "GameEngine/Log.h"
 
