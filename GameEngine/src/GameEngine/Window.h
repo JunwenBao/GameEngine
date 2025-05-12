@@ -7,13 +7,14 @@
 
 namespace GameEngine {
 
+	//结构体：保存窗口的基本属性（窗口名+大小）
 	struct WindowProps
 	{
 		std::string Title;
 		unsigned int Width;
 		unsigned int Height;
 
-		WindowProps(const std::string& title = "Hazel Engine", unsigned int width = 1280, unsigned int height = 720)
+		WindowProps(const std::string& title = "My Game Engine", unsigned int width = 1280, unsigned int height = 720)
 			: Title(title), Width(width), Height(height) {}
 	};
 
@@ -37,5 +38,4 @@ namespace GameEngine {
 
 		static Window* Create(const WindowProps& props = WindowProps());
 	};
-
 }

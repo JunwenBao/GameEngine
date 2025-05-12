@@ -32,12 +32,14 @@ namespace GameEngine {
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
+		/* 初始化窗口标题和尺寸 */
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
 		HZ_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
+		/* 初始化GLFW */
 		if (!s_GLFWInitialized)
 		{
 			// TODO: glfwTerminate on system shutdown
@@ -47,12 +49,16 @@ namespace GameEngine {
 			s_GLFWInitialized = true;
 		}
 
+		//创建窗口
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+		//设置OpenGL上下文
 		glfwMakeContextCurrent(m_Window);
+		//设置用户指针
 		glfwSetWindowUserPointer(m_Window, &m_Data);
+		//启用垂直同步
 		SetVSync(true);
 
-		//Set GLFW Callbacks
+		/* 设置GLFW事件回调 */
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);

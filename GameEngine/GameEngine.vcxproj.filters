@@ -37,7 +37,7 @@
     <ClInclude Include="src\GameEngine\Window.h">
       <Filter>GameEngine</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameEngine\WindowsWindow.h">
+    <ClInclude Include="src\GameEngine\Platform\Windows\WindowsWindow.h">
       <Filter>GameEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\hzpch.h" />
@@ -49,7 +49,7 @@
     <ClCompile Include="src\GameEngine\Log.cpp">
       <Filter>GameEngine</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameEngine\WindowsWindow.cpp">
+    <ClCompile Include="src\GameEngine\Platform\Windows\WindowsWindow.cpp">
       <Filter>GameEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\hzpch.cpp" />
