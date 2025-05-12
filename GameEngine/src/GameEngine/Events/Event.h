@@ -53,8 +53,8 @@ namespace GameEngine {
 		{
 			return GetCategoryFlags() & category;
 		}
-	protected:
-		bool m_Handled = false; //表示事件是否被处理，用于防止重复处理
+		
+		bool Handled = false; //表示事件是否被处理，用于防止重复处理
 	};
 
 	//将事件分发给对应的处理器
@@ -70,7 +70,7 @@ namespace GameEngine {
 		{
 			if (m_Event.GetEventType() == T::GetStaticType())
 			{
-				m_Event.m_Handled = func(*(T*)&m_Event);
+				m_Event.Handled = func(*(T*)&m_Event);
 				return true;
 			}
 			return false;
