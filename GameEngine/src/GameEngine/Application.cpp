@@ -1,8 +1,9 @@
 #include "hzpch.h"
 
 #include "Application.h"
+#include "GameEngine/Log.h"
 
-#include<GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace GameEngine {
 
@@ -12,6 +13,9 @@ namespace GameEngine {
 	{
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+
+		unsigned int id;
+		glGenVertexArrays(1, &id);
 	}
 
 	Application::~Application()
