@@ -24,8 +24,8 @@ namespace GameEngine {
 		m_Window = std::unique_ptr<Window>(Window::Create()); //创建窗口，生成窗口句柄
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));	  //初始化回调事件
 
-		unsigned int id;
-		glGenVertexArrays(1, &id);
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
 	}
 
 	Application::~Application()
@@ -77,6 +77,14 @@ namespace GameEngine {
 			{
 				layer->OnUpdate();
 			}
+
+			m_ImGuiLayer->Begin();
+			for (Layer* layer : m_LayerStack)
+			{
+				layer->OnImGuiRender();
+			}
+			m_ImGuiLayer->End();
+
 
 			m_Window->OnUpdate();
 		}

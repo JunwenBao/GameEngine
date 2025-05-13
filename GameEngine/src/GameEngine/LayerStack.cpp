@@ -5,7 +5,7 @@ namespace GameEngine {
 
 	LayerStack::LayerStack()
 	{
-		m_LayerInsert = m_Layers.begin();
+		
 	}
 
 	LayerStack::~LayerStack()
@@ -17,7 +17,8 @@ namespace GameEngine {
 	//普通层会被push到队列的最前面
 	void LayerStack::PushLayer(Layer* layer)
 	{
-		m_LayerInsert = m_Layers.emplace(m_LayerInsert, layer);
+		m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, layer);
+		m_LayerInsertIndex++;
 	}
 
 	//覆盖层会被push到队列的最后面，即：覆盖层永远在普通层后面
@@ -32,7 +33,7 @@ namespace GameEngine {
 		if (it != m_Layers.end())
 		{
 			m_Layers.erase(it); //仅移除，非删除。只有在析构函数中才会删除Layer
-			m_LayerInsert--;
+			m_LayerInsertIndex--;
 		}
 	}
 

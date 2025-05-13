@@ -22,6 +22,6 @@ namespace GameEngine {
 		std::vector<Layer*>::iterator end() { return m_Layers.end(); }
 	private:
 		std::vector<Layer*> m_Layers; //使用vector保存Layer，因为每一帧都需要对它进行迭代
-		std::vector<Layer*>::iterator m_LayerInsert;
+		unsigned int m_LayerInsertIndex = 0;
 	};
 }

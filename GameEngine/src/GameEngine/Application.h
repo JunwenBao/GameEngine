@@ -1,10 +1,13 @@
 #pragma once
 
-#include"Core.h"
-#include"Events/Event.h"
-#include "GameEngine/Events/ApplicationEvent.h"
+#include "Core.h"
+
+#include "Window.h"
 #include "GameEngine/LayerStack.h"
-#include"Window.h"
+#include "Events/Event.h"
+#include "GameEngine/Events/ApplicationEvent.h"
+
+#include "GameEngine/ImGui/ImGuiLayer.h"
 
 namespace GameEngine {
 	class GE_API Application
@@ -25,6 +28,7 @@ namespace GameEngine {
 		bool OnWindowClosed(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 	private:
