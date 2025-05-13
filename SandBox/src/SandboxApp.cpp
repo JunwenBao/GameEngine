@@ -3,19 +3,27 @@
 class ExampleLayer : public GameEngine::Layer
 {
 public:
-	ExampleLayer()
+	ExampleLayer() : Layer("Example")
 	{
-		m_DebugName = "Example";
+		
 	}
 
 	void OnUpdate() override
 	{
 		HZ_INFO("ExampleLayer::Update");
+
+		if (GameEngine::Input::IsKeyPressed(HZ_KEY_TAB)) HZ_TRACE("Tab key is pressed (poll)!");
 	}
 
 	void OnEvent(GameEngine::Event& event) override
 	{
-		HZ_TRACE("{}", event.ToString());
+		if (event.GetEventType() == GameEngine::EventType::KeyPressed)
+		{
+			GameEngine::KeyPressedEvent& e = (GameEngine::KeyPressedEvent&)event;
+			if (e.GetKeyCode() == HZ_KEY_TAB)
+				HZ_TRACE("Print key is pressed (event)!");
+			HZ_TRACE("{0}", (char)e.GetKeyCode());
+		}
 	}
 };
 

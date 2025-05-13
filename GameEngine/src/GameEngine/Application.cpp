@@ -2,9 +2,12 @@
 
 #include "Application.h"
 #include "GameEngine/Log.h"
-#include "Input.h"
 
 #include <glad/glad.h>
+
+#include "Input.h"
+
+#include "glm/glm.hpp"
 
 namespace GameEngine {
 
@@ -74,9 +77,6 @@ namespace GameEngine {
 			{
 				layer->OnUpdate();
 			}
-
-			auto [x, y] = Input::GetMousePosition();
-			HZ_CORE_TRACE("{0}, {1}", x, y);
 
 			m_Window->OnUpdate();
 		}
