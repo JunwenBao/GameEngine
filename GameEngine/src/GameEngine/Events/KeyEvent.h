@@ -4,6 +4,7 @@
 
 namespace GameEngine {
 
+	/* 键盘事件：基类 */
 	class GE_API KeyEvent : public Event
 	{
 	public:
@@ -16,6 +17,7 @@ namespace GameEngine {
 		int m_KeyCode;
 	};
 
+	/* 键盘事件：按下某个按键 */
 	class GE_API KeyPressedEvent : public KeyEvent
 	{
 	public:
@@ -35,6 +37,7 @@ namespace GameEngine {
 		int m_RepeatCount;
 	};
 
+	/* 键盘事件：松开某个按键 */
 	class GE_API KeyReleasedEvent : public KeyEvent
 	{
 	public:
@@ -48,5 +51,21 @@ namespace GameEngine {
 		}
 
 		EVENT_CLASS_TYPE(KeyReleased)
+	};
+
+	/* 键盘事件：按下某个可打印字符按键 */
+	class GE_API KeyTypedEvent : public KeyEvent
+	{
+	public:
+		KeyTypedEvent(int keycode) : KeyEvent(keycode) {}
+
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "KeyTypedEventEvent: " << m_KeyCode;
+			return ss.str();
+		}
+
+		EVENT_CLASS_TYPE(KeyTyped)
 	};
 }

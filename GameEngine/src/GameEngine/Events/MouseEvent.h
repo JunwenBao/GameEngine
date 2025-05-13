@@ -4,6 +4,7 @@
 
 namespace GameEngine {
 
+	/* 鼠标事件：移动 */
 	class GE_API MouseMovedEvent : public Event
 	{
 	public:
@@ -20,11 +21,12 @@ namespace GameEngine {
 		}
 
 		EVENT_CLASS_TYPE(MouseMoved)
-			EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	private:
 		float m_MouseX, m_MouseY;
 	};
 
+	/* 鼠标事件：滑轮滚动 */
 	class GE_API MouseScrolledEvent : public Event
 	{
 	public:
@@ -41,11 +43,12 @@ namespace GameEngine {
 		}
 
 		EVENT_CLASS_TYPE(MouseScrolled)
-			EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	private:
 		float m_XOffset, m_YOffset;
 	};
 
+	/* 鼠标事件：按键 */
 	class GE_API MouseButtonEvent : public Event
 	{
 	public:
@@ -58,6 +61,7 @@ namespace GameEngine {
 		int m_Button;
 	};
 
+	/* 鼠标事件：按键按下 */
 	class GE_API MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
@@ -73,6 +77,7 @@ namespace GameEngine {
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
 
+	/* 鼠标事件：按键松开 */
 	class GE_API MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:

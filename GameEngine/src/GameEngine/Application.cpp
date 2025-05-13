@@ -16,8 +16,9 @@ namespace GameEngine {
 		HZ_CORE_ASSERT(!s_Instance, "Application already sxists!");
 		s_Instance = this;
 
-		m_Window = std::unique_ptr<Window>(Window::Create());
-		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+		/* 创建窗口 */
+		m_Window = std::unique_ptr<Window>(Window::Create()); //创建窗口，生成窗口句柄
+		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));	  //初始化回调事件
 
 		unsigned int id;
 		glGenVertexArrays(1, &id);
@@ -40,6 +41,7 @@ namespace GameEngine {
 		overlay->OnAttach();
 	}
 
+	//响应事件
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);

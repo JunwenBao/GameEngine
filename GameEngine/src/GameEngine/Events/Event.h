@@ -16,7 +16,7 @@ namespace GameEngine {
 		None = 0,
 		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
 		AppTick, AppUpdate, AppRender,
-		KeyPressed, KeyReleased,
+		KeyPressed, KeyReleased, KeyTyped,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 
@@ -31,13 +31,13 @@ namespace GameEngine {
 		EventCategoryMouseButton = BIT(4)
 	};
 
-#define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::##type; }\
+#define EVENT_CLASS_TYPE(type)  static EventType GetStaticType() { return EventType::##type; }\
 								virtual EventType GetEventType() const override { return GetStaticType(); }\
 								virtual const char* GetName() const override { return #type; }
 
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
-	//抽象基类：Event，这是所有事件类的基类
+	/* 抽象基类Event：这是所有事件类的基类 */
 	class GE_API Event
 	{
 		friend class EventDispatcher;
@@ -57,7 +57,7 @@ namespace GameEngine {
 		bool Handled = false; //表示事件是否被处理，用于防止重复处理
 	};
 
-	//将事件分发给对应的处理器
+	/* 事件分发器：将事件分发给对应的处理器 */
 	class EventDispatcher
 	{
 		template<typename T>
