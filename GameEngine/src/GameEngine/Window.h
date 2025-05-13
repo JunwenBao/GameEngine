@@ -36,6 +36,8 @@ namespace GameEngine {
 		virtual void SetVSync(bool enabled) = 0; //启用或禁用VSync（垂直同步）：用于控制帧率是否与屏幕刷新率同步，防止画面撕裂
 		virtual bool IsVSync() const = 0;
 
+		virtual void* GetNativeWindow() const = 0;
+
 		static Window* Create(const WindowProps& props = WindowProps());
 	};
 }
