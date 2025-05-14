@@ -1,5 +1,7 @@
 #include <GameEngine.h>
 
+#include "ImGui/imgui.h"
+
 class ExampleLayer : public GameEngine::Layer
 {
 public:
@@ -13,6 +15,13 @@ public:
 		HZ_INFO("ExampleLayer::Update");
 
 		if (GameEngine::Input::IsKeyPressed(HZ_KEY_TAB)) HZ_TRACE("Tab key is pressed (poll)!");
+	}
+
+	virtual void OnImGuiRender() override
+	{
+		ImGui::Begin("Test");
+		ImGui::Text("Hello World");
+		ImGui::End();
 	}
 
 	void OnEvent(GameEngine::Event& event) override
@@ -33,7 +42,6 @@ public:
 	Sandbox()
 	{
 		PushLayer(new ExampleLayer());
-		//PushOverlay(new GameEngine::ImGuiLayer());
 	}
 
 	~Sandbox()
