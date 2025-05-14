@@ -1,9 +1,9 @@
 #pragma once
 
-#include"GameEngine/Core.h"
-#include"Layer.h"
+#include "GameEngine/Core.h"
+#include "Layer.h"
 
-#include<vector>
+#include <vector>
 
 namespace GameEngine {
 

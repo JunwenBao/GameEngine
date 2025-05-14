@@ -10,8 +10,11 @@ namespace GameEngine {
 
 	LayerStack::~LayerStack()
 	{
+		//逐层遍历，删除所有层
 		for (Layer* layer : m_Layers)
+		{
 			delete layer;
+		}
 	}
 
 	//普通层会被push到队列的最前面
