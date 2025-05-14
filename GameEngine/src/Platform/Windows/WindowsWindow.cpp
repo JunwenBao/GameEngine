@@ -6,7 +6,7 @@
 #include "GameEngine/Events/KeyEvent.h"
 #include "GameEngine/Events/MouseEvent.h"
 
-#include <glad/glad.h>
+#include "Platform/OpenGL/OpenGLContext.h"
 
 namespace GameEngine {
 
@@ -53,11 +53,13 @@ namespace GameEngine {
 
 		//创建窗口
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		//设置OpenGL上下文
-		glfwMakeContextCurrent(m_Window);
-		//加载Glad
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		HZ_CORE_ASSERT(status, "Fail to initialize Glad!");
+
+		//创建上下文
+		m_Context = new OpenGLContext(m_Window);
+
+		//初始化上下文
+		m_Context->Init();
+
 		//设置用户指针
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		//启用垂直同步
@@ -161,7 +163,7 @@ namespace GameEngine {
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
