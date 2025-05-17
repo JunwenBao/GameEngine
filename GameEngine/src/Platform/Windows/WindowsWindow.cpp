@@ -14,7 +14,7 @@ namespace GameEngine {
 
 	static void GLFWErrorCallback(int error, const char* description)
 	{
-		HZ_CORE_ERROR("GLFW Error {{0}}: {1}", error, description);
+		//HZ_CORE_ERROR("GLFW Error {{0}}: {1}", error, description);
 	}
 
 	Window* Window::Create(const WindowProps& props)
@@ -46,7 +46,7 @@ namespace GameEngine {
 		{
 			// TODO: glfwTerminate on system shutdown
 			int success = glfwInit();
-			HZ_CORE_ASSERT(success, "Could not intialize GLFW!");
+			//HZ_CORE_ASSERT(success, "Could not intialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
 			s_GLFWInitialized = true;
 		}
