@@ -34,22 +34,22 @@ namespace GameEngine {
 
 	void LayerStack::PopLayer(Layer* layer)
 	{
-		auto it = std::find(m_Layers.begin(), m_Layers.end(), layer);
+		auto it = std::find(m_Layers.begin(), m_Layers.begin() + m_LayerInsertIndex, layer);
 		if (it != m_Layers.end())
 		{
+			layer->OnDetach();
 			m_Layers.erase(it); //仅移除，非删除。只有在析构函数中才会删除Layer
 			m_LayerInsertIndex--;
-			layer->OnDetach();
 		}
 	}
 
 	void LayerStack::PopOverlay(Layer* overlay)
 	{
-		auto it = std::find(m_Layers.begin(), m_Layers.end(), overlay);
+		auto it = std::find(m_Layers.begin() + m_LayerInsertIndex, m_Layers.end(), overlay);
 		if (it != m_Layers.end())
 		{
-			m_Layers.erase(it);
 			overlay->OnDetach();
+			m_Layers.erase(it);
 		}
 	}
 
