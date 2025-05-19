@@ -58,7 +58,7 @@ namespace GameEngine {
 			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
 		};
 
-		//缓冲区
+		//顶点缓冲区VAO
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 		{
 			BufferLayout layout = {
@@ -69,8 +69,9 @@ namespace GameEngine {
 			m_VertexBuffer->SetLayout(layout);
 		}
 
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); //上传数组到VAO
 
+		//根据VAO的Layout，上传数据到GPU
 		//glEnableVertexAttribArray(0);
 		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 		uint32_t index = 0;
@@ -78,6 +79,7 @@ namespace GameEngine {
 		for (const auto& element : layout)
 		{
 			glEnableVertexAttribArray(index);
+			//配置属性指针
 			glVertexAttribPointer(index,
 				element.GetComponentCount(),
 				ShaderDataTypeToOpenGLBaseType(element.Type),
