@@ -1377,6 +1377,7 @@
     <ClInclude Include="src\GameEngine\Renderer\RenderCommand.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\GameEngine\Renderer\OrthographicCamera.h" />
+    <ClInclude Include="src\GameEngine\Core\TimeStep.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameEngine\Application.cpp">

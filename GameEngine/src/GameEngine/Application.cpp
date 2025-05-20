@@ -5,6 +5,9 @@
 
 #include "GameEngine/Log.h"
 #include "GameEngine/Renderer/Renderer.h"
+#include "GameEngine/Core/TimeStep.h"
+
+#include <GLFW/glfw3.h>
 
 namespace GameEngine {
 
@@ -20,6 +23,7 @@ namespace GameEngine {
 		/* 窗口 */
 		m_Window = std::unique_ptr<Window>(Window::Create()); //创建窗口，生成窗口句柄
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));	  //初始化回调事件
+		m_Window->SetVSync(true);
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
@@ -65,9 +69,13 @@ namespace GameEngine {
 	{
 		while (m_Running)
 		{
+			float time = (float)glfwGetTime(); // 应该依据运行平台获取时间
+			TimeStep timestep = time - m_LastFrameTime;
+			m_LastFrameTime = time;
+
 			for (Layer* layer : m_LayerStack)
 			{
-				layer->OnUpdate();
+				layer->OnUpdate(timestep);
 			}
 
 			m_ImGuiLayer->Begin();

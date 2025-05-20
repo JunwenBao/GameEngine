@@ -122,36 +122,36 @@ public:
 		m_BlueShader.reset(new GameEngine::Shader(blueShaderVertexSrc, blueShaderFragmentSrc));
 	}
 
-	void OnUpdate() override
+	void OnUpdate(GameEngine::TimeStep timestep) override
 	{
 		// 响应相机左右移动
 		if (GameEngine::Input::IsKeyPressed(HZ_KEY_LEFT))
 		{
-			m_CameraPosition.x -= m_CameraMoveSpeed;
+			m_CameraPosition.x -= m_CameraMoveSpeed * timestep;
 		}
 		else if (GameEngine::Input::IsKeyPressed(HZ_KEY_RIGHT))
 		{
-			m_CameraPosition.x += m_CameraMoveSpeed;
+			m_CameraPosition.x += m_CameraMoveSpeed * timestep;
 		}
 
 		// 响应相机上下移动
 		if (GameEngine::Input::IsKeyPressed(HZ_KEY_UP))
 		{
-			m_CameraPosition.y += m_CameraMoveSpeed;
+			m_CameraPosition.y += m_CameraMoveSpeed * timestep;
 		}
 		else if (GameEngine::Input::IsKeyPressed(HZ_KEY_DOWN))
 		{
-			m_CameraPosition.y -= m_CameraMoveSpeed;
+			m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
 		}
 
 		// 响应相机旋转
 		if (GameEngine::Input::IsKeyPressed(HZ_KEY_Q))
 		{
-			m_CameraRotation += m_CameraRotationSpeed;
+			m_CameraRotation += m_CameraRotationSpeed * timestep;
 		}
 		else if (GameEngine::Input::IsKeyPressed(HZ_KEY_E))
 		{
-			m_CameraRotation -= m_CameraRotationSpeed;
+			m_CameraRotation -= m_CameraRotationSpeed * timestep;
 		}
 
 		// 设置背景颜色
@@ -201,10 +201,10 @@ private:
 
 	GameEngine::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
-	float m_CameraRotation = 0.0f;
+	float m_CameraMoveSpeed = 1.0f;
 
-	float m_CameraMoveSpeed = 0.1f;
-	float m_CameraRotationSpeed = 0.1f;
+	float m_CameraRotation = 0.0f;
+	float m_CameraRotationSpeed = 30.0f;
 };
 
 class Sandbox : public GameEngine::Application
