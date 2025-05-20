@@ -1,8 +1,10 @@
 #include <GameEngine.h>
 
+#include "Platform/OpenGL/OpenGLShader.h"
 #include "ImGui/imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public GameEngine::Layer
 {
@@ -91,9 +93,10 @@ public:
 			}
 		)";
 
-		m_Shader.reset(new GameEngine::Shader(vertexSrc, fragmentSrc));
+		//m_Shader.reset(new GameEngine::Shader(vertexSrc, fragmentSrc));
+		m_Shader.reset(GameEngine::Shader::Create(vertexSrc, fragmentSrc));
 
-		std::string blueShaderVertexSrc = R"(
+		std::string flatColorShaderVertexSrc = R"(
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
@@ -110,20 +113,23 @@ public:
 			}
 		)";
 
-		std::string blueShaderFragmentSrc = R"(
+		std::string flatColorShaderFragmentSrc = R"(
 			#version 330 core
 			
 			layout(location = 0) out vec4 color;
 
 			in vec3 v_Position;
 
+			uniform vec4 u_Color;
+
 			void main()
 			{
-				color = vec4(0.2, 0.3, 0.8, 1.0);
+				color = u_Color;
 			}
 		)";
 
-		m_BlueShader.reset(new GameEngine::Shader(blueShaderVertexSrc, blueShaderFragmentSrc));
+		//m_FlatColorShader.reset(new GameEngine::Shader(flatColorShaderVertexSrc, flatColorShaderFragmentSrc));
+		m_FlatColorShader.reset(GameEngine::Shader::Create(flatColorShaderVertexSrc, flatColorShaderFragmentSrc));
 	}
 
 	void OnUpdate(GameEngine::TimeStep timestep) override
@@ -171,11 +177,29 @@ public:
 		//GameEngine::Renderer::Submit(m_BlueShader, m_SquareVA, transform);
 		// 绘制三角形
 		//GameEngine::Renderer::Submit(m_Shader, m_VertexArray);
-		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
+		glm::vec4 redColor(0.8f, 0.2f, 0.3f, 1.0f);
+		glm::vec4 blueColor(0.2f, 0.3f, 0.8f, 1.0f);
+
+		std::dynamic_pointer_cast<GameEngine::OpenGLShader>(m_FlatColorShader)->Bind();
+		std::dynamic_pointer_cast<GameEngine::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_Color", m_SquareColor);
 
 		//glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f)) * scale;
-		GameEngine::Renderer::Submit(m_BlueShader, m_SquareVA, transform);
+		//glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f)) * scale;
+		for (int y = 0; y < 20; y++)
+		{
+			for (int x = 0; x < 20; x++)
+			{
+				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
+				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+
+				//if (x % 2 == 0) m_FlatColorShader->UploadUniformFloat4("u_Color", redColor);
+				//else m_FlatColorShader->UploadUniformFloat4("u_Color", blueColor);
+				GameEngine::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
+			}
+		}
+		//GameEngine::Renderer::Submit(m_BlueShader, m_SquareVA, transform);
 
 		GameEngine::Renderer::EndScene();
 
@@ -184,14 +208,14 @@ public:
 
 	virtual void OnImGuiRender() override
 	{
-		ImGui::Begin("Test");
-		ImGui::Text("Hello World");
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
 		ImGui::End();
 	}
 
 	void OnEvent(GameEngine::Event& event) override
 	{
-		//响应按键事件
+		// 响应按键事件
 		if (event.GetEventType() == GameEngine::EventType::KeyPressed)
 		{
 			GameEngine::KeyPressedEvent& e = (GameEngine::KeyPressedEvent&)event;
@@ -205,7 +229,7 @@ private:
 	std::shared_ptr<GameEngine::Shader> m_Shader;
 	std::shared_ptr<GameEngine::VertexArray> m_VertexArray;
 
-	std::shared_ptr<GameEngine::Shader> m_BlueShader;
+	std::shared_ptr<GameEngine::Shader> m_FlatColorShader;
 	std::shared_ptr<GameEngine::VertexArray> m_SquareVA;
 
 	GameEngine::OrthographicCamera m_Camera; // 相机变量
@@ -214,6 +238,8 @@ private:
 
 	float m_CameraRotation = 0.0f;			 // 相机旋转角度
 	float m_CameraRotationSpeed = 30.0f;	 // 相机旋转速度
+
+	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f }; // 颜色
 };
 
 class Sandbox : public GameEngine::Application
