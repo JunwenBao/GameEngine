@@ -5,6 +5,13 @@
 
 namespace GameEngine {
 
+	void OpenGLRendererAPI::Init()
+	{
+		// 启用OpenGL混合，并设置混合函数
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+
 	void OpenGLRendererAPI::SetClearColor(const glm::vec4& color)
 	{
 		glClearColor(color.r, color.g, color.b, color.a);

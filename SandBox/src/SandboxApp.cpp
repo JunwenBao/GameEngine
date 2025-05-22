@@ -9,7 +9,7 @@
 class ExampleLayer : public GameEngine::Layer
 {
 public:
-	ExampleLayer() : Layer("Example"), m_Camera(-2.0f, 2.0f, -2.0f, 2.0f), m_CameraPosition(0.0f)
+	ExampleLayer() : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f)
 	{
 		/* 渲染器 */
 		// 创建第一个图形的VAO并设置属性
@@ -165,6 +165,7 @@ public:
 
 		m_TextureShader.reset(GameEngine::Shader::Create(textureShaderVertexSrc, textureShaderFragmentSrc));
 		m_Texture = GameEngine::Texture2D::Create("assets/textures/Checkerboard.png");
+		m_LogoTexture = GameEngine::Texture2D::Create("assets/textures/Logo.png");
 
 		std::dynamic_pointer_cast<GameEngine::OpenGLShader>(m_TextureShader)->Bind();
 		std::dynamic_pointer_cast<GameEngine::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
@@ -238,9 +239,15 @@ public:
 			}
 		}
 		//GameEngine::Renderer::Submit(m_BlueShader, m_SquareVA, transform);
+		// 绑定材质
 		m_Texture->Bind();
 		GameEngine::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
+		// 绑定材质
+		m_LogoTexture->Bind();
+		GameEngine::Renderer::Submit(m_TextureShader, m_SquareVA,
+			glm::translate(glm::mat4(1.0f), glm::vec3(0.25f, -0.25f, 0.0f)) * glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+			
 		GameEngine::Renderer::EndScene();
 
 		//if (GameEngine::Input::IsKeyPressed(HZ_KEY_TAB)) HZ_TRACE("Tab key is pressed (poll)!");
@@ -272,7 +279,7 @@ private:
 	GameEngine::Ref<GameEngine::Shader> m_FlatColorShader, m_TextureShader;
 	GameEngine::Ref<GameEngine::VertexArray> m_SquareVA;
 	
-	GameEngine::Ref<GameEngine::Texture2D> m_Texture;
+	GameEngine::Ref<GameEngine::Texture2D> m_Texture, m_LogoTexture;
 
 	GameEngine::OrthographicCamera m_Camera; // 相机变量
 	glm::vec3 m_CameraPosition;				 // 相机位置

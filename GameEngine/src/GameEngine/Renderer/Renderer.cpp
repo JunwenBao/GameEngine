@@ -7,6 +7,11 @@ namespace GameEngine {
 
 	Renderer::SceneData* Renderer::s_SceneData = new Renderer::SceneData;
 
+	void Renderer::Init()
+	{
+		RenderCommand::Init();
+	}
+
 	// 帧渲染的入口函数
 	void Renderer::BeginScene(OrthographicCamera& camera)
 	{
