@@ -50,6 +50,7 @@ namespace GameEngine {
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClosed));
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(OnWindowResize));
 
 		HZ_CORE_TRACE("{}", e.ToString());
 
@@ -60,12 +61,6 @@ namespace GameEngine {
 		}
 	}
 
-	bool Application::OnWindowClosed(WindowCloseEvent& e)
-	{
-		m_Running = false;
-		return true;
-	}
-
 	void Application::Run()
 	{
 		while (m_Running)
@@ -74,9 +69,10 @@ namespace GameEngine {
 			TimeStep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
-			for (Layer* layer : m_LayerStack)
+			if (!m_Minimized)
 			{
-				layer->OnUpdate(timestep);
+				for (Layer* layer : m_LayerStack)
+					layer->OnUpdate(timestep);
 			}
 
 			m_ImGuiLayer->Begin();
@@ -89,5 +85,25 @@ namespace GameEngine {
 
 			m_Window->OnUpdate();
 		}
+	}
+
+	bool Application::OnWindowClosed(WindowCloseEvent& e)
+	{
+		m_Running = false;
+		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent& e)
+	{
+		if (e.GetWidth() == 0 || e.GetHeight() == 0)
+		{
+			m_Minimized = true;
+			return false;
+		}
+
+		m_Minimized = false;
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+
+		return false;
 	}
 }
