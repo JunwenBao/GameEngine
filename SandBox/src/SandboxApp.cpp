@@ -9,7 +9,7 @@
 class ExampleLayer : public GameEngine::Layer
 {
 public:
-	ExampleLayer() : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f)
+	ExampleLayer() : Layer("Example"), m_CameraController(1280.0f / 720.0f)
 	{
 		/* 渲染器 */
 		// 创建第一个图形的VAO并设置属性
@@ -141,44 +141,13 @@ public:
 
 	void OnUpdate(GameEngine::TimeStep timestep) override
 	{
-		// 响应相机左右移动
-		if (GameEngine::Input::IsKeyPressed(HZ_KEY_LEFT))
-		{
-			m_CameraPosition.x -= m_CameraMoveSpeed * timestep;
-		}
-		else if (GameEngine::Input::IsKeyPressed(HZ_KEY_RIGHT))
-		{
-			m_CameraPosition.x += m_CameraMoveSpeed * timestep;
-		}
-
-		// 响应相机上下移动
-		if (GameEngine::Input::IsKeyPressed(HZ_KEY_UP))
-		{
-			m_CameraPosition.y += m_CameraMoveSpeed * timestep;
-		}
-		else if (GameEngine::Input::IsKeyPressed(HZ_KEY_DOWN))
-		{
-			m_CameraPosition.y -= m_CameraMoveSpeed * timestep;
-		}
-
-		// 响应相机旋转
-		if (GameEngine::Input::IsKeyPressed(HZ_KEY_Q))
-		{
-			m_CameraRotation += m_CameraRotationSpeed * timestep;
-		}
-		else if (GameEngine::Input::IsKeyPressed(HZ_KEY_E))
-		{
-			m_CameraRotation -= m_CameraRotationSpeed * timestep;
-		}
+		m_CameraController.OnUpdate(timestep);
 
 		// 设置背景颜色
 		GameEngine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		GameEngine::RenderCommand::Clear();
 
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
-
-		GameEngine::Renderer::BeginScene(m_Camera);
+		GameEngine::Renderer::BeginScene(m_CameraController.GetCamera());
 
 		// 绘制背景图形
 		//GameEngine::Renderer::Submit(m_BlueShader, m_SquareVA, transform);
@@ -231,8 +200,10 @@ public:
 		ImGui::End();
 	}
 
-	void OnEvent(GameEngine::Event& event) override
+	void OnEvent(GameEngine::Event& e) override
 	{
+		m_CameraController.OnEvent(e);
+		/*
 		// 响应按键事件
 		if (event.GetEventType() == GameEngine::EventType::KeyPressed)
 		{
@@ -241,6 +212,7 @@ public:
 				HZ_TRACE("Print key is pressed (event)!");
 			HZ_TRACE("{0}", (char)e.GetKeyCode());
 		}
+		*/
 	}
 
 private:
@@ -253,13 +225,15 @@ private:
 	GameEngine::Ref<GameEngine::VertexArray> m_SquareVA;
 	
 	GameEngine::Ref<GameEngine::Texture2D> m_Texture, m_LogoTexture;
-
+	/*
 	GameEngine::OrthographicCamera m_Camera; // 相机变量
 	glm::vec3 m_CameraPosition;				 // 相机位置
 	float m_CameraMoveSpeed = 1.0f;			 // 相机移动速度
 
 	float m_CameraRotation = 0.0f;			 // 相机旋转角度
 	float m_CameraRotationSpeed = 30.0f;	 // 相机旋转速度
+	*/
+	GameEngine::OrthographicCameraController m_CameraController;
 
 	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f }; // 颜色
 };
