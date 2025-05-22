@@ -23,9 +23,16 @@ namespace GameEngine {
 		std::string source = ReadFile(filepath); // 获取着色器的全部文本
 		std::unordered_map<GLenum, std::string> shaderSources = PreProcess(source);
 		Compile(shaderSources);
+
+		// 从路径中，获取glsl文件的名字
+		auto lastSlash = filepath.find_last_of("/\\");
+		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+		auto lastDot = filepath.rfind('.');
+		auto count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
+		m_Name = filepath.substr(lastSlash, count);
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc) : m_Name(name)
 	{
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
@@ -44,7 +51,7 @@ namespace GameEngine {
 		// 暂时使用std::ifstream来读取文件，因为目前仅支持Windows平台
 		// 由于不同的平台读取文件的方式都不同，所以未来可能使用一个虚拟文件系统来统一标准
 		std::string result;
-		std::ifstream in(filepath, std::ios::in, std::ios::binary); // 以二进制格式读取文本文件，因为不对文件进行改变
+		std::ifstream in(filepath, std::ios::in | std::ios::binary); // 以二进制格式读取文本文件，因为不对文件进行改变
 		if (in)
 		{
 			in.seekg(0, std::ios::end); //指针放入文本末尾
@@ -89,7 +96,11 @@ namespace GameEngine {
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
 	{
 		GLuint program = glCreateProgram();
-		std::vector<GLenum> glShaderIds(shaderSources.size());
+		//std::vector<GLenum> glShaderIds(shaderSources.size());
+		HZ_CORE_ASSERT(shaderSources.size() <= 2, "We only support 2 shaders for now");
+		std::array<GLenum, 2> glShaderIds;
+
+		int glShaderIDIndex = 0;
 
 		for (auto& kv : shaderSources)
 		{
@@ -123,7 +134,7 @@ namespace GameEngine {
 			}
 			
 			glAttachShader(program, shader);
-			glShaderIds.push_back(shader);
+			glShaderIds[glShaderIDIndex++] = shader;
 		}
 
 		m_RendererID = program;
