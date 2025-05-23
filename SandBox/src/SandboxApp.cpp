@@ -1,10 +1,13 @@
 #include <GameEngine.h>
+#include <GameEngine/Core/EntryPoint.h>
 
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "ImGui/imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include "Sandbox2D.h"
 
 class ExampleLayer : public GameEngine::Layer
 {
@@ -13,7 +16,7 @@ public:
 	{
 		/* 渲染器 */
 		// 创建第一个图形的VAO并设置属性
-		m_VertexArray.reset(GameEngine::VertexArray::Create());
+		m_VertexArray = GameEngine::VertexArray::Create();
 
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,
@@ -36,7 +39,7 @@ public:
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
 		// 创建第二个图形的VAO并设置属性
-		m_SquareVA.reset(GameEngine::VertexArray::Create());
+		m_SquareVA = GameEngine::VertexArray::Create();
 
 		float squareVertices[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
@@ -243,7 +246,8 @@ class Sandbox : public GameEngine::Application
 public:
 	Sandbox()
 	{
-		PushLayer(new ExampleLayer());
+		//PushLayer(new ExampleLayer());
+		PushLayer(new Sandbox2D());
 	}
 
 	~Sandbox()
