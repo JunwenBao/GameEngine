@@ -1414,6 +1414,7 @@
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
     <ClInclude Include="vendor\stb_image\stb_image.h" />
+    <ClInclude Include="src\GameEngine\Renderer\Renderer2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameEngine\Core\Application.cpp">
@@ -1489,5 +1490,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp" />
+    <ClCompile Include="src\GameEngine\Renderer\Renderer2D.cpp" />
   </ItemGroup>
 </Project>
