@@ -74,7 +74,7 @@ namespace GameEngine {
 		m_VertexBuffers.push_back(vertexBuffer);
 	}
 
-	// 设置索引缓冲区
+	// 设置索引缓冲区（IBO）
 	void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
 	{
 		glBindVertexArray(m_RendererID);
