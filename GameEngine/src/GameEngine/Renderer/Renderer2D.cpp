@@ -110,7 +110,7 @@ namespace GameEngine {
 
 	void Renderer2D::Shutdown()
 	{
-		
+		delete[] s_Data.QuadVertexBufferBase;
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)

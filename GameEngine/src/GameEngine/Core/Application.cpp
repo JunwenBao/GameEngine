@@ -32,17 +32,25 @@ namespace GameEngine {
 
 	Application::~Application()
 	{
+		Renderer::Shutdown();
 	}
 
 	void Application::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	// 覆盖层会被push到队列的最后面，即：覆盖层永远在普通层后面
 	void Application::PushOverlay(Layer* overlay)
 	{
 		m_LayerStack.PushOverlay(overlay);
+		overlay->OnAttach();
+	}
+
+	void Application::Close()
+	{
+		m_Running = false;
 	}
 
 	// 响应事件
@@ -56,8 +64,8 @@ namespace GameEngine {
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
 		{
-			(*--it)->OnEvent(e);
 			if (e.Handled) break;
+			(*--it)->OnEvent(e);
 		}
 	}
 

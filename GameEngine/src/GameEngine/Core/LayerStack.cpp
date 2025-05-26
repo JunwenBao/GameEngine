@@ -13,6 +13,7 @@ namespace GameEngine {
 		//逐层遍历，删除所有层
 		for (Layer* layer : m_Layers)
 		{
+			layer->OnDetach();
 			delete layer;
 		}
 	}
@@ -22,14 +23,12 @@ namespace GameEngine {
 	{
 		m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, layer);
 		m_LayerInsertIndex++;
-		layer->OnAttach();
 	}
 
 	//覆盖层会被push到队列的最后面，即：覆盖层永远在普通层后面
 	void LayerStack::PushOverlay(Layer* overlay)
 	{
 		m_Layers.emplace_back(overlay);
-		overlay->OnAttach();
 	}
 
 	void LayerStack::PopLayer(Layer* layer)
