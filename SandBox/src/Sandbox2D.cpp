@@ -11,6 +11,10 @@ Sandbox2D::Sandbox2D() : Layer("Sandbox2D"), m_CameraController(1280.0f / 720.0f
 void Sandbox2D::OnAttach()
 {
 	m_CheckerboardTexture = GameEngine::Texture2D::Create("assets/textures/Checkerboard.png");
+	m_SpriteSheet = GameEngine::Texture2D::Create("assets/game/textures/SpriteSheet.png");
+
+	m_TextureGrass = GameEngine::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 2, 5 }, { 16, 16 });
+	m_TextureWater = GameEngine::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 6, 6 }, { 16, 16 });
 
 	// Init Particle System
 	m_Particle.ColorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
@@ -41,7 +45,7 @@ void Sandbox2D::OnUpdate(GameEngine::TimeStep ts)
 	//PROFILE_SCOPE("Renderer Prep");
 	GameEngine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 	GameEngine::RenderCommand::Clear();
-
+	/*
 	static float rotation = 0.0f;
 	rotation += ts * 50.0f;
 
@@ -62,6 +66,7 @@ void Sandbox2D::OnUpdate(GameEngine::TimeStep ts)
 
 	//GameEngine::Renderer2D::EndScene();
 
+	// œ‘ æParticle System
 	if (GameEngine::Input::IsMouseButtonPressed(HZ_MOUSE_BUTTON_LEFT))
 	{
 		auto [x, y] = GameEngine::Input::GetMousePosition();
@@ -80,6 +85,11 @@ void Sandbox2D::OnUpdate(GameEngine::TimeStep ts)
 	}
 	m_ParticleSystem.OnUpdate(ts);
 	m_ParticleSystem.OnRender(m_CameraController.GetCamera());
+	*/
+	GameEngine::Renderer2D::BeginScene(m_CameraController.GetCamera());
+	GameEngine::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_TextureGrass);
+	GameEngine::Renderer2D::DrawQuad({ 1.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_TextureWater);
+	GameEngine::Renderer2D::EndScene();
 }
 
 void Sandbox2D::OnImGuiRender()

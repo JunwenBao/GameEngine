@@ -173,6 +173,7 @@
     <ClInclude Include="src\GameEngine\Renderer\Renderer2D.h" />
     <ClInclude Include="src\GameEngine\Renderer\RendererAPI.h" />
     <ClInclude Include="src\GameEngine\Renderer\Shader.h" />
+    <ClInclude Include="src\GameEngine\Renderer\SubTexture2D.h" />
     <ClInclude Include="src\GameEngine\Renderer\Texture.h" />
     <ClInclude Include="src\GameEngine\Renderer\VertexArray.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
@@ -619,6 +620,7 @@
     <ClCompile Include="src\GameEngine\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\GameEngine\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\GameEngine\Renderer\Shader.cpp" />
+    <ClCompile Include="src\GameEngine\Renderer\SubTexture2D.cpp" />
     <ClCompile Include="src\GameEngine\Renderer\Texture.cpp" />
     <ClCompile Include="src\GameEngine\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />

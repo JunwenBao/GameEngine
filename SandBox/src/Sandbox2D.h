@@ -22,7 +22,10 @@ private:
 	// Temp
 	GameEngine::Ref<GameEngine::VertexArray> m_SquareVA;
 	GameEngine::Ref<GameEngine::Shader> m_FlatColorShader;
+
 	GameEngine::Ref<GameEngine::Texture2D> m_CheckerboardTexture;
+	GameEngine::Ref<GameEngine::Texture2D> m_SpriteSheet;
+	GameEngine::Ref<GameEngine::SubTexture2D> m_TextureGrass, m_TextureWater;
 
 	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 

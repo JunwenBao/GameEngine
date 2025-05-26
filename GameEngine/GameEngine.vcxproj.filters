@@ -1416,6 +1416,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
     <ClInclude Include="src\GameEngine\Renderer\Renderer2D.h" />
     <ClInclude Include="src\GameEngine\Debug\Instrumentor.h" />
+    <ClInclude Include="src\GameEngine\Renderer\SubTexture2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameEngine\Core\Application.cpp">
@@ -1492,5 +1493,6 @@
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp" />
     <ClCompile Include="src\GameEngine\Renderer\Renderer2D.cpp" />
+    <ClCompile Include="src\GameEngine\Renderer\SubTexture2D.cpp" />
   </ItemGroup>
 </Project>
