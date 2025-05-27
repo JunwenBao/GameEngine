@@ -5,7 +5,7 @@
 namespace GameEngine {
 
 	/* 键盘事件：基类 */
-	class GE_API KeyEvent : public Event
+	class KeyEvent : public Event
 	{
 	public:
 		inline int GetKeyCode() const { return m_KeyCode; }
@@ -18,7 +18,7 @@ namespace GameEngine {
 	};
 
 	/* 键盘事件：按下某个按键 */
-	class GE_API KeyPressedEvent : public KeyEvent
+	class KeyPressedEvent : public KeyEvent
 	{
 	public:
 		KeyPressedEvent(int keycode, int repeatCount) : KeyEvent(keycode), m_RepeatCount(repeatCount) {}
@@ -38,7 +38,7 @@ namespace GameEngine {
 	};
 
 	/* 键盘事件：松开某个按键 */
-	class GE_API KeyReleasedEvent : public KeyEvent
+	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
 		KeyReleasedEvent(int keycode) : KeyEvent(keycode) {}
@@ -54,7 +54,7 @@ namespace GameEngine {
 	};
 
 	/* 键盘事件：按下某个可打印字符按键 */
-	class GE_API KeyTypedEvent : public KeyEvent
+	class KeyTypedEvent : public KeyEvent
 	{
 	public:
 		KeyTypedEvent(int keycode) : KeyEvent(keycode) {}

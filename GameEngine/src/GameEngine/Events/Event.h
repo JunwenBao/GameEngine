@@ -38,10 +38,11 @@ namespace GameEngine {
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
 	/* 抽象基类Event：这是所有事件类的基类 */
-	class GE_API Event
+	class Event
 	{
-		friend class EventDispatcher;
 	public:
+		virtual ~Event() = default;
+
 		virtual EventType GetEventType() const = 0; //纯虚函数：子类中必须实现
 		virtual const char* GetName() const = 0;	//纯虚函数：子类中必须实现
 		virtual int GetCategoryFlags() const = 0;	//纯虚函数：子类中必须实现
@@ -60,17 +61,15 @@ namespace GameEngine {
 	/* 事件分发器：将事件分发给对应的处理器 */
 	class EventDispatcher
 	{
-		template<typename T>
-		using EventFn = std::function<bool(T&)>;
 	public:
 		EventDispatcher(Event& event) : m_Event(event) {}
 
-		template<typename T>
-		bool Dispatch(EventFn<T> func)
+		template<typename T, typename F>
+		bool Dispatch(const F& func)
 		{
 			if (m_Event.GetEventType() == T::GetStaticType())
 			{
-				m_Event.Handled = func(*(T*)&m_Event);
+				m_Event.Handled = func(static_cast<T&>(m_Event));
 				return true;
 			}
 			return false;

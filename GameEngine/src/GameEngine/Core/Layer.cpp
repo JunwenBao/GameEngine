@@ -7,9 +7,4 @@ namespace GameEngine {
 	{
 
 	}
-
-	Layer::~Layer()
-	{
-
-	}
 }

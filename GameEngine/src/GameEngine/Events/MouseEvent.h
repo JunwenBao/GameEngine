@@ -5,7 +5,7 @@
 namespace GameEngine {
 
 	/* 鼠标事件：移动 */
-	class GE_API MouseMovedEvent : public Event
+	class MouseMovedEvent : public Event
 	{
 	public:
 		MouseMovedEvent(float x, float y) : m_MouseX(x), m_MouseY(y) {}
@@ -27,7 +27,7 @@ namespace GameEngine {
 	};
 
 	/* 鼠标事件：滑轮滚动 */
-	class GE_API MouseScrolledEvent : public Event
+	class MouseScrolledEvent : public Event
 	{
 	public:
 		MouseScrolledEvent(float xOffset, float yOffset) : m_XOffset(xOffset), m_YOffset(yOffset) {}
@@ -49,7 +49,7 @@ namespace GameEngine {
 	};
 
 	/* 鼠标事件：按键 */
-	class GE_API MouseButtonEvent : public Event
+	class MouseButtonEvent : public Event
 	{
 	public:
 		inline int GetMouseButton() const { return m_Button; }
@@ -62,7 +62,7 @@ namespace GameEngine {
 	};
 
 	/* 鼠标事件：按键按下 */
-	class GE_API MouseButtonPressedEvent : public MouseButtonEvent
+	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
 		MouseButtonPressedEvent(int button) : MouseButtonEvent(button) {}
@@ -78,7 +78,7 @@ namespace GameEngine {
 	};
 
 	/* 鼠标事件：按键松开 */
-	class GE_API MouseButtonReleasedEvent : public MouseButtonEvent
+	class MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
 		MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {}

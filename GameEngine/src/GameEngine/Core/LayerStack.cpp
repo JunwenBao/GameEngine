@@ -3,11 +3,6 @@
 
 namespace GameEngine {
 
-	LayerStack::LayerStack()
-	{
-		
-	}
-
 	LayerStack::~LayerStack()
 	{
 		//Öğ²ã±éÀú£¬É¾³ıËùÓĞ²ã
