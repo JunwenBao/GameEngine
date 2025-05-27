@@ -15,13 +15,13 @@ namespace GameEngine {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application()
+	Application::Application(const std::string& name)
 	{
 		HZ_CORE_ASSERT(!s_Instance, "Application already sxists!");
 		s_Instance = this;
 
 		/* 窗口 */
-		m_Window = std::unique_ptr<Window>(Window::Create()); //创建窗口，生成窗口句柄
+		m_Window = std::unique_ptr<Window>(Window::Create(WindowProps(name))); //创建窗口，生成窗口句柄
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));	  //初始化回调事件
 		
 		Renderer::Init();

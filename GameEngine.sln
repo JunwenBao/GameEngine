@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGui", "GameEngine\vendor\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine", "GameEngine\GameEngine.vcxproj", "{D54F7917-C107-BB64-2A0F-94C016E65555}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine-Editor", "GameEngine-Editor\GameEngine-Editor.vcxproj", "{E9510EE9-5568-0C7F-9EDF-97A00A35DD06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -50,6 +52,12 @@ Global
 		{D54F7917-C107-BB64-2A0F-94C016E65555}.Dist|x64.Build.0 = Dist|x64
 		{D54F7917-C107-BB64-2A0F-94C016E65555}.Release|x64.ActiveCfg = Release|x64
 		{D54F7917-C107-BB64-2A0F-94C016E65555}.Release|x64.Build.0 = Release|x64
+		{E9510EE9-5568-0C7F-9EDF-97A00A35DD06}.Debug|x64.ActiveCfg = Debug|x64
+		{E9510EE9-5568-0C7F-9EDF-97A00A35DD06}.Debug|x64.Build.0 = Debug|x64
+		{E9510EE9-5568-0C7F-9EDF-97A00A35DD06}.Dist|x64.ActiveCfg = Dist|x64
+		{E9510EE9-5568-0C7F-9EDF-97A00A35DD06}.Dist|x64.Build.0 = Dist|x64
+		{E9510EE9-5568-0C7F-9EDF-97A00A35DD06}.Release|x64.ActiveCfg = Release|x64
+		{E9510EE9-5568-0C7F-9EDF-97A00A35DD06}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

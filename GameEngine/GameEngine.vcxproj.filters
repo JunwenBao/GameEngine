@@ -10,6 +10,9 @@
     <Filter Include="src\GameEngine\Core">
       <UniqueIdentifier>{64C85E01-D029-3C0F-5997-82C1C5F772CE}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GameEngine\Debug">
+      <UniqueIdentifier>{0230442D-EEBE-CDF6-97DD-E1F1834BDE9C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\GameEngine\Events">
       <UniqueIdentifier>{F08254D9-5CEF-0FD4-25E3-A731910E323C}</UniqueIdentifier>
     </Filter>
@@ -49,6 +52,9 @@
     <Filter Include="vendor\glm\glm\gtx">
       <UniqueIdentifier>{B3A6A76B-9F8A-68C1-08EB-6214F4ED5243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\stb_image">
+      <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameEngine.h">
@@ -78,7 +84,7 @@
     <ClInclude Include="src\GameEngine\Core\Log.h">
       <Filter>src\GameEngine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameEngine\Core\MouseButtonCodes.h">
+    <ClInclude Include="src\GameEngine\Core\MouseCodes.h">
       <Filter>src\GameEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\GameEngine\Core\TimeStep.h">
@@ -86,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="src\GameEngine\Core\Window.h">
       <Filter>src\GameEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\Debug\Instrumentor.h">
+      <Filter>src\GameEngine\Debug</Filter>
     </ClInclude>
     <ClInclude Include="src\GameEngine\Events\ApplicationEvent.h">
       <Filter>src\GameEngine\Events</Filter>
@@ -105,6 +114,9 @@
     <ClInclude Include="src\GameEngine\Renderer\Buffer.h">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameEngine\Renderer\FrameBuffer.h">
+      <Filter>src\GameEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameEngine\Renderer\GraphicsContext.h">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClInclude>
@@ -120,10 +132,16 @@
     <ClInclude Include="src\GameEngine\Renderer\Renderer.h">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameEngine\Renderer\Renderer2D.h">
+      <Filter>src\GameEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameEngine\Renderer\RendererAPI.h">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\GameEngine\Renderer\Shader.h">
+      <Filter>src\GameEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\Renderer\SubTexture2D.h">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\GameEngine\Renderer\Texture.h">
@@ -138,6 +156,9 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
@@ -149,9 +170,6 @@
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
       <Filter>src\Platform\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Platform\Windows\WindowsInput.h">
-      <Filter>src\Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>src\Platform\Windows</Filter>
@@ -1413,12 +1431,9 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="vendor\stb_image\stb_image.h" />
-    <ClInclude Include="src\GameEngine\Renderer\Renderer2D.h" />
-    <ClInclude Include="src\GameEngine\Debug\Instrumentor.h" />
-    <ClInclude Include="src\GameEngine\Renderer\SubTexture2D.h" />
-    <ClInclude Include="src\GameEngine\Renderer\FrameBuffer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h" />
+    <ClInclude Include="vendor\stb_image\stb_image.h">
+      <Filter>vendor\stb_image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameEngine\Core\Application.cpp">
@@ -1442,6 +1457,9 @@
     <ClCompile Include="src\GameEngine\Renderer\Buffer.cpp">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameEngine\Renderer\FrameBuffer.cpp">
+      <Filter>src\GameEngine\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameEngine\Renderer\OrthographicCamera.cpp">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClCompile>
@@ -1454,10 +1472,16 @@
     <ClCompile Include="src\GameEngine\Renderer\Renderer.cpp">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameEngine\Renderer\Renderer2D.cpp">
+      <Filter>src\GameEngine\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameEngine\Renderer\RendererAPI.cpp">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\GameEngine\Renderer\Shader.cpp">
+      <Filter>src\GameEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine\Renderer\SubTexture2D.cpp">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\GameEngine\Renderer\Texture.cpp">
@@ -1470,6 +1494,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
@@ -1493,10 +1520,8 @@
     <ClCompile Include="src\hzpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="vendor\stb_image\stb_image.cpp" />
-    <ClCompile Include="src\GameEngine\Renderer\Renderer2D.cpp" />
-    <ClCompile Include="src\GameEngine\Renderer\SubTexture2D.cpp" />
-    <ClCompile Include="src\GameEngine\Renderer\FrameBuffer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
+    <ClCompile Include="vendor\stb_image\stb_image.cpp">
+      <Filter>vendor\stb_image</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

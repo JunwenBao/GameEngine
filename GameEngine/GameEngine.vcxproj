@@ -155,7 +155,7 @@
     <ClInclude Include="src\GameEngine\Core\Layer.h" />
     <ClInclude Include="src\GameEngine\Core\LayerStack.h" />
     <ClInclude Include="src\GameEngine\Core\Log.h" />
-    <ClInclude Include="src\GameEngine\Core\MouseButtonCodes.h" />
+    <ClInclude Include="src\GameEngine\Core\MouseCodes.h" />
     <ClInclude Include="src\GameEngine\Core\TimeStep.h" />
     <ClInclude Include="src\GameEngine\Core\Window.h" />
     <ClInclude Include="src\GameEngine\Debug\Instrumentor.h" />
@@ -177,14 +177,13 @@
     <ClInclude Include="src\GameEngine\Renderer\SubTexture2D.h" />
     <ClInclude Include="src\GameEngine\Renderer\Texture.h" />
     <ClInclude Include="src\GameEngine\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
-    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\hzpch.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
@@ -626,9 +625,9 @@
     <ClCompile Include="src\GameEngine\Renderer\SubTexture2D.cpp" />
     <ClCompile Include="src\GameEngine\Renderer\Texture.cpp" />
     <ClCompile Include="src\GameEngine\Renderer\VertexArray.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />

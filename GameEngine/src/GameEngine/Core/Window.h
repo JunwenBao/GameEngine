@@ -11,11 +11,14 @@ namespace GameEngine {
 	struct WindowProps
 	{
 		std::string Title;
-		unsigned int Width;
-		unsigned int Height;
+		uint32_t Width;
+		uint32_t Height;
 
-		WindowProps(const std::string& title = "My Game Engine", unsigned int width = 1280, unsigned int height = 720)
-			: Title(title), Width(width), Height(height) {}
+		WindowProps(const std::string& title = "My Game Engine", 
+					uint32_t width = 1280, uint32_t height = 720)
+			: Title(title), Width(width), Height(height) 
+		{
+		}
 	};
 
 	// Interface representing a desktop system based Window
@@ -28,8 +31,8 @@ namespace GameEngine {
 
 		virtual void OnUpdate() = 0; //纯虚函数：每帧调用一次，用于窗口的刷新、事件轮询
 
-		virtual unsigned int GetWidth() const = 0;  
-		virtual unsigned int GetHeight() const = 0;
+		virtual uint32_t GetWidth() const = 0;
+		virtual uint32_t GetHeight() const = 0;
 
 		// Window attributes
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
