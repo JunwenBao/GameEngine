@@ -15,16 +15,17 @@ namespace GameEngine {
 		Application(const std::string& name = "Game Engine");
 		virtual ~Application();
 
-		void Run();
 		void OnEvent(Event& e);
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
 
-		inline static Application& Get() { return *s_Instance; }
-		inline Window& GetWindow() { return *m_Window; }
-
+		void Run();
 		void Close();
+		
+		inline static Application& Get() { return *s_Instance; }
+		inline ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
+		inline Window& GetWindow() { return *m_Window; }
 	private:
 		bool OnWindowClosed(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);

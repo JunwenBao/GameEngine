@@ -11,8 +11,6 @@
 
 namespace GameEngine {
 
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
-
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application(const std::string& name)
@@ -22,7 +20,7 @@ namespace GameEngine {
 
 		/* 窗口 */
 		m_Window = std::unique_ptr<Window>(Window::Create(WindowProps(name))); //创建窗口，生成窗口句柄
-		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));	  //初始化回调事件
+		m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));	  //初始化回调事件
 		
 		Renderer::Init();
 
@@ -57,10 +55,8 @@ namespace GameEngine {
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClosed));
-		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(OnWindowResize));
-
-		HZ_CORE_TRACE("{}", e.ToString());
+		dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClosed));
+		dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(Application::OnWindowResize));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
 		{
@@ -80,16 +76,17 @@ namespace GameEngine {
 			if (!m_Minimized)
 			{
 				for (Layer* layer : m_LayerStack)
+				{
 					layer->OnUpdate(timestep);
+				}
+			
+				m_ImGuiLayer->Begin();
+				for (Layer* layer : m_LayerStack)
+				{
+					layer->OnImGuiRender();
+				}
+				m_ImGuiLayer->End();
 			}
-
-			m_ImGuiLayer->Begin();
-			for (Layer* layer : m_LayerStack)
-			{
-				layer->OnImGuiRender();
-			}
-			m_ImGuiLayer->End();
-
 
 			m_Window->OnUpdate();
 		}
