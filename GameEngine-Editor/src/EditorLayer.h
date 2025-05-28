@@ -29,7 +29,7 @@ namespace GameEngine
 
 		// ECS
 		Ref<Scene> m_ActiveScene;
-		entt::entity m_SquareEntity;
+		Entity m_SquareEntity;
 
 		Ref<Texture2D> m_CheckerboardTexture;
 
