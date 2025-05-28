@@ -165,6 +165,7 @@
     <ClInclude Include="src\GameEngine\Events\MouseEvent.h" />
     <ClInclude Include="src\GameEngine\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\GameEngine\Renderer\Buffer.h" />
+    <ClInclude Include="src\GameEngine\Renderer\Camera.h" />
     <ClInclude Include="src\GameEngine\Renderer\FrameBuffer.h" />
     <ClInclude Include="src\GameEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\GameEngine\Renderer\OrthographicCamera.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="src\GameEngine\Scene\Components.h" />
     <ClInclude Include="src\GameEngine\Scene\Entity.h" />
     <ClInclude Include="src\GameEngine\Scene\Scene.h" />
+    <ClInclude Include="src\GameEngine\Scene\SceneCamera.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h" />
@@ -631,6 +633,7 @@
     <ClCompile Include="src\GameEngine\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\GameEngine\Scene\Entity.cpp" />
     <ClCompile Include="src\GameEngine\Scene\Scene.cpp" />
+    <ClCompile Include="src\GameEngine\Scene\SceneCamera.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
