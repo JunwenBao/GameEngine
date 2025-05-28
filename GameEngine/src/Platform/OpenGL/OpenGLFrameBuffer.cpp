@@ -4,6 +4,8 @@
 #include <glad/glad.h>
 
 namespace GameEngine {
+
+	static const uint32_t s_MaxFramebufferSize = 8192;
 	
 	OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecification& spec) : m_Specification(spec)
 	{
@@ -68,6 +70,12 @@ namespace GameEngine {
 
 	void OpenGLFramebuffer::Resize(uint32_t t_width, uint32_t t_height)
 	{
+		if (t_width == 0 || t_height == 0 || t_width > s_MaxFramebufferSize || t_height > s_MaxFramebufferSize)
+		{
+			HZ_CORE_WARN("Attempted to rezize framebuffer to {0}, {1}", t_width, t_height);
+			return;
+		}
+
 		m_Specification.Width = t_width;
 		m_Specification.Height = t_height;
 

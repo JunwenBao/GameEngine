@@ -14,6 +14,9 @@
 
 #include "GameEngine/ImGui/ImGuiLayer.h"
 
+#include "GameEngine/Scene/Scene.h"
+#include "GameEngine/Scene/Components.h"
+
 /* ----------Renderer----------- */
 #include "GameEngine/Renderer/Renderer.h"
 #include "GameEngine/Renderer/Renderer2D.h"

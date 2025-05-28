@@ -1,1 +1,1 @@
-{"otherData": {},"traceEvents":[{"cat":"function","dur":0,"name":"void __cdecl GameEngine::EditorLayer::OnDetach(void)","ph":"X","pid":0,"tid":3303185791,"ts":225193448540}]}
+{"otherData": {},"traceEvents":[{"cat":"function","dur":1,"name":"void __cdecl GameEngine::EditorLayer::OnDetach(void)","ph":"X","pid":0,"tid":442780776,"ts":240944508966}]}
