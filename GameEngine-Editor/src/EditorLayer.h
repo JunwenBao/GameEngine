@@ -1,8 +1,7 @@
 #pragma once
 
 #include "GameEngine.h"
-
-#include <entt/include/entt.hpp>
+#include "Panels/SceneHierarchyPanel.h"
 
 namespace GameEngine
 {
@@ -44,6 +43,9 @@ namespace GameEngine
 		Ref<SubTexture2D> m_TextureGrass, m_TextureWater;
 
 		glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+
+		// Panels
+		SceneHierarchyPanel m_SceneHierarchyPanel;
 	};
 
 }
