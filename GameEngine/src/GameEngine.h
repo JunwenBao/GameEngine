@@ -17,6 +17,7 @@
 #include "GameEngine/Scene/Scene.h"
 #include "GameEngine/Scene/Entity.h"
 #include "GameEngine/Scene/Components.h"
+#include "GameEngine/Scene/ScriptableEntity.h"
 
 /* ----------Renderer----------- */
 #include "GameEngine/Renderer/Renderer.h"

@@ -64,6 +64,22 @@ namespace GameEngine {
 
 	void Scene::OnUpdate(TimeStep ts)
 	{
+		// 更新所有挂载Entity上的原生脚本
+		{
+			m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc)
+			{
+				if (!nsc.Instance)
+				{
+					nsc.InstantiateFunction();
+					nsc.Instance->m_Entity = Entity{ entity, this };
+
+					if (nsc.OnCreateFunction) nsc.OnCreateFunction(nsc.Instance);
+				}
+
+				if (nsc.OnUpdateFunction) nsc.OnUpdateFunction(nsc.Instance, ts);
+			});
+		}
+
 		// Render 2D
 		Camera* mainCamera = nullptr;
 		glm::mat4* cameraTransform = nullptr;
