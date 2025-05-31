@@ -117,6 +117,9 @@
     <ClInclude Include="src\GameEngine\Renderer\Buffer.h">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameEngine\Renderer\Camera.h">
+      <Filter>src\GameEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameEngine\Renderer\FrameBuffer.h">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClInclude>
@@ -156,7 +159,19 @@
     <ClInclude Include="src\GameEngine\Scene\Components.h">
       <Filter>src\GameEngine\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameEngine\Scene\Entity.h">
+      <Filter>src\GameEngine\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameEngine\Scene\Scene.h">
+      <Filter>src\GameEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\Scene\SceneCamera.h">
+      <Filter>src\GameEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\Scene\SceneSerializer.h">
+      <Filter>src\GameEngine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\Scene\ScriptableEntity.h">
       <Filter>src\GameEngine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
@@ -1443,10 +1458,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameEngine\Renderer\Camera.h" />
-    <ClInclude Include="src\GameEngine\Scene\Entity.h" />
-    <ClInclude Include="src\GameEngine\Scene\SceneCamera.h" />
-    <ClInclude Include="src\GameEngine\Scene\ScriptableEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameEngine\Core\Application.cpp">
@@ -1506,7 +1517,16 @@
     <ClCompile Include="src\GameEngine\Renderer\VertexArray.cpp">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameEngine\Scene\Entity.cpp">
+      <Filter>src\GameEngine\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameEngine\Scene\Scene.cpp">
+      <Filter>src\GameEngine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine\Scene\SceneCamera.cpp">
+      <Filter>src\GameEngine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine\Scene\SceneSerializer.cpp">
       <Filter>src\GameEngine\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
@@ -1542,7 +1562,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameEngine\Scene\Entity.cpp" />
-    <ClCompile Include="src\GameEngine\Scene\SceneCamera.cpp" />
   </ItemGroup>
 </Project>
