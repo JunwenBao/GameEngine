@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Event.h"
+#include "GameEngine/Core/KeyCodes.h"
 
 namespace GameEngine {
 
@@ -8,20 +9,20 @@ namespace GameEngine {
 	class KeyEvent : public Event
 	{
 	public:
-		inline int GetKeyCode() const { return m_KeyCode; }
+		inline KeyCode GetKeyCode() const { return m_KeyCode; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
-		KeyEvent(int keycode) : m_KeyCode(keycode) {}
+		KeyEvent(const KeyCode keycode) : m_KeyCode(keycode) {}
 
-		int m_KeyCode;
+		KeyCode m_KeyCode;
 	};
 
 	/* 键盘事件：按下某个按键 */
 	class KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(int keycode, int repeatCount) : KeyEvent(keycode), m_RepeatCount(repeatCount) {}
+		KeyPressedEvent(const KeyCode keycode, int repeatCount) : KeyEvent(keycode), m_RepeatCount(repeatCount) {}
 
 		inline int GetRepeatCount() const { return m_RepeatCount; }
 
@@ -41,7 +42,7 @@ namespace GameEngine {
 	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(int keycode) : KeyEvent(keycode) {}
+		KeyReleasedEvent(const KeyCode keycode) : KeyEvent(keycode) {}
 
 		std::string ToString() const override
 		{
@@ -57,7 +58,7 @@ namespace GameEngine {
 	class KeyTypedEvent : public KeyEvent
 	{
 	public:
-		KeyTypedEvent(int keycode) : KeyEvent(keycode) {}
+		KeyTypedEvent(const KeyCode keycode) : KeyEvent(keycode) {}
 
 		std::string ToString() const override
 		{
