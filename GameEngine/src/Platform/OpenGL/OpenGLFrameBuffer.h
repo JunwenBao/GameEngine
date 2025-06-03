@@ -18,6 +18,8 @@ namespace GameEngine {
 		virtual void Resize(uint32_t t_width, uint32_t t_height) override;
 		virtual int ReadPixel(uint32_t attachmentIndex, int x, int y) override;
 
+		virtual void ClearAttachment(uint32_t attachmentIndex, int value) override;
+
 		virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const override { return m_ColorAttachments[index]; }
 
 		virtual const FramebufferSpecification& GetSpecification() const override { return m_Specification; }

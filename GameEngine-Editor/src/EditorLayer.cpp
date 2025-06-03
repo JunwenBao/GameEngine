@@ -128,6 +128,9 @@ namespace GameEngine {
 		GameEngine::Renderer2D::EndScene();
 		*/
 
+		// Clear our entity ID attachment to -1 Add commentMore actions
+		m_Framebuffer->ClearAttachment(1, -1);
+
 		// Update scene
 		m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 
