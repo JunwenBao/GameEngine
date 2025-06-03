@@ -47,6 +47,7 @@ namespace GameEngine
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 
 		glm::vec2 m_ViewportSize = {0.0f, 0.0f};
+		glm::vec2 m_ViewportBounds[2];
 
 		Ref<Texture2D> m_SpriteSheet;
 		Ref<SubTexture2D> m_TextureGrass, m_TextureWater;
