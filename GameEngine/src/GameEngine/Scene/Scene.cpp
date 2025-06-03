@@ -34,7 +34,7 @@ namespace GameEngine {
 		m_Registry.destroy(entity);
 	}
 
-	void Scene::OnUpdate(TimeStep ts)
+	void Scene::OnUpdateRuntime(TimeStep ts)
 	{
 		// 更新所有挂载Entity上的原生脚本
 		{
@@ -85,6 +85,22 @@ namespace GameEngine {
 
 			Renderer2D::EndScene();
 		}
+	}
+
+	// 使用Editor Camera进行渲染更新
+	void Scene::OnUpdateEditor(TimeStep ts, EditorCamera& camera)
+	{
+		Renderer2D::BeginScene(camera);
+
+		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+		for (auto entity : group)
+		{
+			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+
+			Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
+		}
+
+		Renderer2D::EndScene();
 	}
 
 	void Scene::OnViewportResize(uint32_t width, uint32_t height)

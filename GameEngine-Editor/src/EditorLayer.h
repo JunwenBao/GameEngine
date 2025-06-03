@@ -2,6 +2,7 @@
 
 #include "GameEngine.h"
 #include "Panels/SceneHierarchyPanel.h"
+#include "GameEngine/Renderer/EditorCamera.h"
 
 namespace GameEngine
 {
@@ -38,6 +39,8 @@ namespace GameEngine
 		Entity m_CameraEntity;
 		Entity m_SecondCamera;
 		bool m_PrimaryCamera = true;
+
+		EditorCamera m_EditorCamera; // 编辑器专用相机
 
 		Ref<Texture2D> m_CheckerboardTexture;
 

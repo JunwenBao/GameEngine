@@ -13,8 +13,9 @@ namespace GameEngine {
 
 	std::optional<std::string> FileDialogs::OpenFile(const char* filter)
 	{
-		OPENFILENAMEA ofn; // WWINDOWS API：用于配置打开文件对话框
-		CHAR szFile[260] = { 0 }; // 存储选择的文件路径
+		OPENFILENAMEA ofn; // WINDOWS API：用于配置打开文件对话框
+		CHAR szFile[260] = { 0 };     // 存储选择的文件路径
+		CHAR currentDir[256] = { 0 }; 
 		ZeroMemory(&ofn, sizeof(OPENFILENAME));
 		ofn.lStructSize = sizeof(OPENFILENAME);
 		ofn.hwndOwner = glfwGetWin32Window((GLFWwindow*)Application::Get().GetWindow().GetNativeWindow()); // 获取窗口句柄
@@ -22,6 +23,8 @@ namespace GameEngine {
 		// 配置各种选项
 		ofn.lpstrFile = szFile;
 		ofn.nMaxFile = sizeof(szFile);
+		if (GetCurrentDirectoryA(256, currentDir))
+			ofn.lpstrInitialDir = currentDir;
 		ofn.lpstrFilter = filter;
 		ofn.nFilterIndex = 1;
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
@@ -38,15 +41,18 @@ namespace GameEngine {
 	{
 		OPENFILENAMEA ofn;
 		CHAR szFile[260] = { 0 };
+		CHAR currentDir[256] = { 0 };
 		ZeroMemory(&ofn, sizeof(OPENFILENAME));
 		ofn.lStructSize = sizeof(OPENFILENAME);
 
 		ofn.hwndOwner = glfwGetWin32Window((GLFWwindow*)Application::Get().GetWindow().GetNativeWindow());
 		ofn.lpstrFile = szFile;
 		ofn.nMaxFile = sizeof(szFile);
+		if (GetCurrentDirectoryA(256, currentDir))
+			ofn.lpstrInitialDir = currentDir;
 		ofn.lpstrFilter = filter;
 		ofn.nFilterIndex = 1;
-		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
+		ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR;
 
 		// Sets the default extension by extracting it from the filter
 		ofn.lpstrDefExt = strchr(filter, '\0') + 1;

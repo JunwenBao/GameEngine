@@ -1,7 +1,7 @@
 #pragma once
 
 #include "entt.hpp"
-
+#include "GameEngine/Renderer/EditorCamera.h"
 #include "GameEngine/Core/Timestep.h"
 
 namespace GameEngine {
@@ -17,7 +17,9 @@ namespace GameEngine {
 		Entity CreateEntity(const std::string& name = std::string());
 		void DestroyEntity(Entity entity);
 
-		void OnUpdate(TimeStep ts);
+		// 将更新函数Update()拆分为编辑器更新函数+运行时更新函数
+		void OnUpdateRuntime(TimeStep ts);
+		void OnUpdateEditor(TimeStep ts, EditorCamera& camera);
 		void OnViewportResize(uint32_t width, uint32_t height);
 
 		Entity GetPrimaryCameraEntity();
