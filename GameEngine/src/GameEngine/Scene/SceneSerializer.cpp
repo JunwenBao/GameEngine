@@ -17,6 +17,7 @@ namespace YAML {
 			node.push_back(rhs.x);
 			node.push_back(rhs.y);
 			node.push_back(rhs.z);
+			node.SetStyle(EmitterStyle::Flow);
 			return node;
 		}
 
@@ -42,6 +43,7 @@ namespace YAML {
 			node.push_back(rhs.y);
 			node.push_back(rhs.z);
 			node.push_back(rhs.w);
+			node.SetStyle(EmitterStyle::Flow);
 			return node;
 		}
 
@@ -182,11 +184,7 @@ namespace GameEngine {
 
 	bool SceneSerializer::Deserialize(const std::string& filepath)
 	{
-		std::ifstream stream(filepath); // 打开场景文件
-		std::stringstream strStream;	// 
-		strStream << stream.rdbuf();	// 将场景文件写入到字符串中
-
-		YAML::Node data = YAML::Load(strStream.str()); // 将字符串解析成YAML的特殊结构Node
+		YAML::Node data = YAML::LoadFile(filepath); // 将字符串解析成YAML的特殊结构Node
 
 		// 判断是否包含Scene节点，如果没有则说明该Scene是空的
 		if (!data["Scene"])
