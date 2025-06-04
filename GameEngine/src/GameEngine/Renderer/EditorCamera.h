@@ -15,7 +15,7 @@ namespace GameEngine {
 		EditorCamera() = default;
 		EditorCamera(float fov, float aspectRatio, float nearClip, float farClip);
 
-		void OnUpdate(TimeStep ts);
+		void OnUpdate(Timestep ts);
 		void OnEvent(Event& e);
 
 		inline float GetDistance() const { return m_Distance; }
@@ -42,6 +42,7 @@ namespace GameEngine {
 
 		// 相机行为
 		bool OnMouseScroll(MouseScrolledEvent& e); // 鼠标滚轮事件
+
 		void MousePan(const glm::vec2& delta);	   // 鼠标中键：平移
 		void MouseRotate(const glm::vec2& delta);  // 鼠标右键：旋转
 		void MouseZoom(float delta);			   // 鼠标滚轮：缩放

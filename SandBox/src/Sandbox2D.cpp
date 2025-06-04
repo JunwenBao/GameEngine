@@ -45,7 +45,7 @@ void Sandbox2D::OnDetach()
 
 }
 
-void Sandbox2D::OnUpdate(GameEngine::TimeStep ts)
+void Sandbox2D::OnUpdate(GameEngine::Timestep ts)
 {
 	HZ_PROFILE_FUNCTION();
 

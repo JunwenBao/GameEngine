@@ -1,7 +1,7 @@
 #include "hzpch.h"
-#include "ImGuiLayer.h"
+#include "GameEngine/ImGui/ImGuiLayer.h"
 
-#include "imgui.h"
+#include <imgui.h>
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 
@@ -22,6 +22,8 @@ namespace GameEngine {
 
 	void ImGuiLayer::OnAttach()
 	{
+		HZ_PROFILE_FUNCTION();
+
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -33,7 +35,6 @@ namespace GameEngine {
 		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
 		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
 
-		// 修改UI字体类型
 		io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Bold.ttf", 18.0f);
 		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Regular.ttf", 18.0f);
 
@@ -49,7 +50,6 @@ namespace GameEngine {
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 		}
 
-		// 将UI设置为暗色主题
 		SetDarkThemeColors();
 
 		Application& app = Application::Get();
@@ -60,22 +60,29 @@ namespace GameEngine {
 		ImGui_ImplOpenGL3_Init("#version 410");
 	}
 
-	void ImGuiLayer::OnEvent(Event& e)
-	{
-		//ImGuiIO& io = ImGui::GetIO();
-		//e.Handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
-		//e.Handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
-	}
-
 	void ImGuiLayer::OnDetach()
 	{
+		HZ_PROFILE_FUNCTION();
+
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
 
+	void ImGuiLayer::OnEvent(Event& e)
+	{
+		if (m_BlockEvents)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			e.Handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+			e.Handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
+		}
+	}
+
 	void ImGuiLayer::Begin()
 	{
+		HZ_PROFILE_FUNCTION();
+
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
@@ -84,9 +91,10 @@ namespace GameEngine {
 
 	void ImGuiLayer::End()
 	{
+		HZ_PROFILE_FUNCTION();
+
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
-		//io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
 		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
 
 		// Rendering
@@ -101,8 +109,7 @@ namespace GameEngine {
 			glfwMakeContextCurrent(backup_current_context);
 		}
 	}
-	
-	// 设置UI主题颜色
+
 	void ImGuiLayer::SetDarkThemeColors()
 	{
 		auto& colors = ImGui::GetStyle().Colors;
@@ -135,4 +142,5 @@ namespace GameEngine {
 		colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 		colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
 	}
+
 }

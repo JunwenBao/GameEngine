@@ -34,7 +34,7 @@ namespace GameEngine {
 		m_Registry.destroy(entity);
 	}
 
-	void Scene::OnUpdateRuntime(TimeStep ts)
+	void Scene::OnUpdateRuntime(Timestep ts)
 	{
 		// 更新所有挂载Entity上的原生脚本
 		{
@@ -88,7 +88,7 @@ namespace GameEngine {
 	}
 
 	// 使用Editor Camera进行渲染更新
-	void Scene::OnUpdateEditor(TimeStep ts, EditorCamera& camera)
+	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
 	{
 		Renderer2D::BeginScene(camera);
 
@@ -146,7 +146,10 @@ namespace GameEngine {
 	template<>
 	void Scene::OnComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
 	{
-		component.Camera.SetViewportSize(m_ViewportWidth, m_ViewportHeight);
+		if (m_ViewportWidth > 0 && m_ViewportHeight > 0)
+		{
+			component.Camera.SetViewportSize(m_ViewportWidth, m_ViewportHeight);
+		}
 	}
 
 	template<>

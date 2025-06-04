@@ -75,7 +75,10 @@
     <ClInclude Include="src\GameEngine\Core\Application.h">
       <Filter>src\GameEngine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameEngine\Core\Core.h">
+    <ClInclude Include="src\GameEngine\Core\Assert.h">
+      <Filter>src\GameEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\Core\Base.h">
       <Filter>src\GameEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\GameEngine\Core\EntryPoint.h">
@@ -99,7 +102,13 @@
     <ClInclude Include="src\GameEngine\Core\MouseCodes.h">
       <Filter>src\GameEngine\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameEngine\Core\PlatformDetection.h">
+      <Filter>src\GameEngine\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameEngine\Core\TimeStep.h">
+      <Filter>src\GameEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\Core\Timer.h">
       <Filter>src\GameEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\GameEngine\Core\Window.h">
@@ -168,6 +177,9 @@
     <ClInclude Include="src\GameEngine\Renderer\Texture.h">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameEngine\Renderer\UniformBuffer.h">
+      <Filter>src\GameEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameEngine\Renderer\VertexArray.h">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClInclude>
@@ -208,6 +220,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLUniformBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
@@ -1514,6 +1529,9 @@
     <ClCompile Include="src\GameEngine\Renderer\FrameBuffer.cpp">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameEngine\Renderer\GraphicsContext.cpp">
+      <Filter>src\GameEngine\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameEngine\Renderer\OrthographicCamera.cpp">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClCompile>
@@ -1539,6 +1557,9 @@
       <Filter>src\GameEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\GameEngine\Renderer\Texture.cpp">
+      <Filter>src\GameEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine\Renderer\UniformBuffer.cpp">
       <Filter>src\GameEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\GameEngine\Renderer\VertexArray.cpp">
@@ -1572,6 +1593,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLUniformBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">

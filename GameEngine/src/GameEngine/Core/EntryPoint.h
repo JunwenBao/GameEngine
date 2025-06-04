@@ -1,25 +1,26 @@
 #pragma once
+#include "GameEngine/Core/Base.h"
+#include "GameEngine/Core/Application.h"
 
-#ifdef GE_PLATFORM_WINDOWS
+#ifdef HZ_PLATFORM_WINDOWS
 
-extern GameEngine::Application* GameEngine::CreateApplication();
+extern GameEngine::Application* GameEngine::CreateApplication(ApplicationCommandLineArgs args);
 
 int main(int argc, char** argv)
 {
 	GameEngine::Log::Init();
-	HZ_CORE_WARN("Initialized Log");
 
-	HZ_PROFILE_BEGIN_SESSION("Startup", "HazelProfile-Startup.json");
-	auto app = GameEngine::CreateApplication();
+	HZ_PROFILE_BEGIN_SESSION("Startup", "GameEngineProfile-Startup.json");
+	auto app = GameEngine::CreateApplication({ argc, argv });
 	HZ_PROFILE_END_SESSION();
 
-	HZ_PROFILE_BEGIN_SESSION("Runtime", "HazelProfile-Runtime.json");
+	HZ_PROFILE_BEGIN_SESSION("Runtime", "GameEngineProfile-Runtime.json");
 	app->Run();
 	HZ_PROFILE_END_SESSION();
 
-	HZ_PROFILE_BEGIN_SESSION("Startup", "HazelProfile-Shutdown.json");
+	HZ_PROFILE_BEGIN_SESSION("Shutdown", "GameEngineProfile-Shutdown.json");
 	delete app;
 	HZ_PROFILE_END_SESSION();
 }
 
-#endif // GE_PLATFORM_WINDOWS
+#endif

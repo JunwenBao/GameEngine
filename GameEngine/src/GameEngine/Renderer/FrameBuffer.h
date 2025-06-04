@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameEngine/Core/Core.h"
+#include "GameEngine/Core/Base.h"
 
 namespace GameEngine {
 
@@ -45,6 +45,8 @@ namespace GameEngine {
 	class Framebuffer
 	{
 	public:
+		virtual ~Framebuffer() = default;
+
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;
 

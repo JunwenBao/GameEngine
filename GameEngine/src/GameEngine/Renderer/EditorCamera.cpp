@@ -59,7 +59,7 @@ namespace GameEngine {
 		return speed;
 	}
 
-	void EditorCamera::OnUpdate(TimeStep ts)
+	void EditorCamera::OnUpdate(Timestep ts)
 	{
 		if (Input::IsKeyPressed(Key::LeftAlt))
 		{

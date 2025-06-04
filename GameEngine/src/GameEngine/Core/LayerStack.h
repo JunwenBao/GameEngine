@@ -1,13 +1,13 @@
 #pragma once
 
-#include "GameEngine/Core/Core.h"
+#include "GameEngine/Core/Base.h"
 #include "Layer.h"
 
 #include <vector>
 
 namespace GameEngine {
 
-	class GE_API LayerStack 
+	class LayerStack 
 	{
 	public:
 		LayerStack() = default;
@@ -31,4 +31,5 @@ namespace GameEngine {
 		std::vector<Layer*> m_Layers; //使用vector保存Layer，因为每一帧都需要对它进行迭代
 		unsigned int m_LayerInsertIndex = 0;
 	};
+
 }

@@ -18,8 +18,8 @@ namespace GameEngine {
 		void DestroyEntity(Entity entity);
 
 		// 将更新函数Update()拆分为编辑器更新函数+运行时更新函数
-		void OnUpdateRuntime(TimeStep ts);
-		void OnUpdateEditor(TimeStep ts, EditorCamera& camera);
+		void OnUpdateRuntime(Timestep ts);
+		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
 		void OnViewportResize(uint32_t width, uint32_t height);
 
 		Entity GetPrimaryCameraEntity();

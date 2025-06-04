@@ -32,7 +32,7 @@ ParticleSystem::ParticleSystem(uint32_t maxParticles) : m_PoolIndex(maxParticles
 	m_ParticlePool.resize(maxParticles);
 }
 
-void ParticleSystem::OnUpdate(GameEngine::TimeStep ts)
+void ParticleSystem::OnUpdate(GameEngine::Timestep ts)
 {
 	for (auto& particle : m_ParticlePool)
 	{

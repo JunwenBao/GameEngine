@@ -1,6 +1,7 @@
 #pragma once
 
-#include "GameEngine/Core/Core.h"
+#include <glm/glm.hpp>
+
 #include "GameEngine/Core/KeyCodes.h"
 #include "GameEngine/Core/MouseCodes.h"
 
@@ -11,10 +12,9 @@ namespace GameEngine {
 	public:
 		static bool IsKeyPressed(KeyCode key);
 
-		static bool IsMouseButtonPressed(MouseCode button); 
-		static std::pair<float, float> GetMousePosition();
+		static bool IsMouseButtonPressed(MouseCode button);
+		static glm::vec2 GetMousePosition();
 		static float GetMouseX();
 		static float GetMouseY();
 	};
-
 }

@@ -1,8 +1,8 @@
 #include "hzpch.h"
 #include "GameEngine/Core/Window.h"
 
-#ifdef GE_PLATFORM_WINDOWS
-#include "Platform/Windows/WindowsWindow.h"
+#ifdef HZ_PLATFORM_WINDOWS
+	#include "Platform/Windows/WindowsWindow.h"
 #endif
 
 namespace GameEngine
@@ -10,7 +10,7 @@ namespace GameEngine
 
 	Scope<Window> Window::Create(const WindowProps& props)
 	{
-		#ifdef GE_PLATFORM_WINDOWS
+		#ifdef HZ_PLATFORM_WINDOWS
 				return CreateScope<WindowsWindow>(props);
 		#else
 				HZ_CORE_ASSERT(false, "Unknown platform!");

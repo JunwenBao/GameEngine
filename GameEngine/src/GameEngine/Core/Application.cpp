@@ -1,11 +1,11 @@
 #include "hzpch.h"
-#include "Application.h"
-
-#include "Input.h"
+#include "GameEngine/Core/Application.h"
 
 #include "GameEngine/Core/Log.h"
+
 #include "GameEngine/Renderer/Renderer.h"
-#include "GameEngine/Core/TimeStep.h"
+
+#include "GameEngine/Core/Input.h"
 
 #include <GLFW/glfw3.h>
 
@@ -13,15 +13,16 @@ namespace GameEngine {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application(const std::string& name)
+	Application::Application(const std::string& name, ApplicationCommandLineArgs args)
+		: m_CommandLineArgs(args)
 	{
-		HZ_CORE_ASSERT(!s_Instance, "Application already sxists!");
-		s_Instance = this;
+		HZ_PROFILE_FUNCTION();
 
-		/* 窗口 */
-		m_Window = std::unique_ptr<Window>(Window::Create(WindowProps(name))); //创建窗口，生成窗口句柄
-		m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));	  //初始化回调事件
-		
+		HZ_CORE_ASSERT(!s_Instance, "Application already exists!");
+		s_Instance = this;
+		m_Window = Window::Create(WindowProps(name));
+		m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
+
 		Renderer::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
@@ -30,20 +31,25 @@ namespace GameEngine {
 
 	Application::~Application()
 	{
+		HZ_PROFILE_FUNCTION();
+
 		Renderer::Shutdown();
 	}
 
 	void Application::PushLayer(Layer* layer)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		m_LayerStack.PushLayer(layer);
 		layer->OnAttach();
 	}
 
-	// 覆盖层会被push到队列的最后面，即：覆盖层永远在普通层后面
-	void Application::PushOverlay(Layer* overlay)
+	void Application::PushOverlay(Layer* layer)
 	{
-		m_LayerStack.PushOverlay(overlay);
-		overlay->OnAttach();
+		HZ_PROFILE_FUNCTION();
+
+		m_LayerStack.PushOverlay(layer);
+		layer->OnAttach();
 	}
 
 	void Application::Close()
@@ -51,39 +57,49 @@ namespace GameEngine {
 		m_Running = false;
 	}
 
-	// 响应事件
 	void Application::OnEvent(Event& e)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClosed));
+		dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(Application::OnWindowResize));
 
-		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
+		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
 		{
-			if (e.Handled) break;
-			(*--it)->OnEvent(e);
+			if (e.Handled)
+				break;
+			(*it)->OnEvent(e);
 		}
 	}
 
 	void Application::Run()
 	{
+		HZ_PROFILE_FUNCTION();
+
 		while (m_Running)
 		{
-			float time = (float)glfwGetTime(); // 应该依据运行平台获取时间
-			TimeStep timestep = time - m_LastFrameTime;
+			HZ_PROFILE_SCOPE("RunLoop");
+
+			float time = (float)glfwGetTime();
+			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
 			if (!m_Minimized)
 			{
-				for (Layer* layer : m_LayerStack)
 				{
-					layer->OnUpdate(timestep);
+					HZ_PROFILE_SCOPE("LayerStack OnUpdate");
+
+					for (Layer* layer : m_LayerStack)
+						layer->OnUpdate(timestep);
 				}
-			
+
 				m_ImGuiLayer->Begin();
-				for (Layer* layer : m_LayerStack)
 				{
-					layer->OnImGuiRender();
+					HZ_PROFILE_SCOPE("LayerStack OnImGuiRender");
+
+					for (Layer* layer : m_LayerStack)
+						layer->OnImGuiRender();
 				}
 				m_ImGuiLayer->End();
 			}
@@ -92,7 +108,7 @@ namespace GameEngine {
 		}
 	}
 
-	bool Application::OnWindowClosed(WindowCloseEvent& e)
+	bool Application::OnWindowClose(WindowCloseEvent& e)
 	{
 		m_Running = false;
 		return true;
@@ -100,6 +116,8 @@ namespace GameEngine {
 
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		if (e.GetWidth() == 0 || e.GetHeight() == 0)
 		{
 			m_Minimized = true;

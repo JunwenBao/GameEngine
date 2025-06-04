@@ -1,31 +1,28 @@
 #include "hzpch.h"
 #include "GameEngine/Core/Input.h"
-#include "GameEngine/Core/Application.h"
 
+#include "GameEngine/Core/Application.h"
 #include <GLFW/glfw3.h>
 
 namespace GameEngine {
 
-	// 判断键盘按键是否按下，且判断是单击还是长按
-	bool Input::IsKeyPressed(KeyCode key)
+	bool Input::IsKeyPressed(const KeyCode key)
 	{
-		GLFWwindow* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
-		int state = glfwGetKey(window, static_cast<int32_t>(key));
+		auto* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
+		auto state = glfwGetKey(window, static_cast<int32_t>(key));
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
-	// 判断鼠标键是否按下
-	bool Input::IsMouseButtonPressed(MouseCode button)
+	bool Input::IsMouseButtonPressed(const MouseCode button)
 	{
-		GLFWwindow* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
-		int state = glfwGetMouseButton(window, static_cast<int32_t>(button));
+		auto* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
+		auto state = glfwGetMouseButton(window, static_cast<int32_t>(button));
 		return state == GLFW_PRESS;
 	}
 
-	// 获取鼠标在窗口中的当前位置（X, Y）坐标
-	std::pair<float, float> Input::GetMousePosition()
+	glm::vec2 Input::GetMousePosition()
 	{
-		GLFWwindow* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
+		auto* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
 
@@ -34,14 +31,12 @@ namespace GameEngine {
 
 	float Input::GetMouseX()
 	{
-		auto [x, y] = GetMousePosition();
-		return x;
+		return GetMousePosition().x;
 	}
 
 	float Input::GetMouseY()
 	{
-		auto [x, y] = GetMousePosition();
-		return y;
+		return GetMousePosition().y;
 	}
 
 }

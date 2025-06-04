@@ -6,6 +6,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ExampleLayer.h" />
     <ClInclude Include="src\Game\GameLayer.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -13,6 +14,7 @@
     <ClInclude Include="src\Sandbox2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ExampleLayer.cpp" />
     <ClCompile Include="src\Game\GameLayer.cpp">
       <Filter>Game</Filter>
     </ClCompile>

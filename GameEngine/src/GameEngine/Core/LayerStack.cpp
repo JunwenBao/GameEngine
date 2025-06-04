@@ -1,5 +1,5 @@
 #include "hzpch.h"
-#include "LayerStack.h"
+#include "GameEngine/Core/LayerStack.h"
 
 namespace GameEngine {
 
@@ -29,7 +29,7 @@ namespace GameEngine {
 	void LayerStack::PopLayer(Layer* layer)
 	{
 		auto it = std::find(m_Layers.begin(), m_Layers.begin() + m_LayerInsertIndex, layer);
-		if (it != m_Layers.end())
+		if (it != m_Layers.begin() + m_LayerInsertIndex)
 		{
 			layer->OnDetach();
 			m_Layers.erase(it); //仅移除，非删除。只有在析构函数中才会删除Layer

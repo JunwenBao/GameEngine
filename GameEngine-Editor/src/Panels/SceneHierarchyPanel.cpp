@@ -6,6 +6,12 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "GameEngine/Scene/Components.h"
+#include <cstring>
+
+
+#ifdef _MSVC_LANG
+#define _CRT_SECURE_NO_WARNINGS
+#endif
 
 namespace GameEngine {
 
@@ -34,7 +40,7 @@ namespace GameEngine {
 			m_SelectionContext = {};
 
 		// Right-click on blank space
-		if (ImGui::BeginPopupContextWindow())
+		if (ImGui::BeginPopupContextWindow(0, 1))
 		{
 			if (ImGui::MenuItem("Create Empty Entity"))
 				m_Context->CreateEntity("Empty Entity");
@@ -51,6 +57,11 @@ namespace GameEngine {
 		}
 
 		ImGui::End();
+	}
+
+	void SceneHierarchyPanel::SetSelectedEntity(Entity entity)
+	{
+		m_SelectionContext = entity;
 	}
 
 	void SceneHierarchyPanel::DrawEntityNode(Entity entity)
@@ -206,7 +217,7 @@ namespace GameEngine {
 
 			char buffer[256];
 			memset(buffer, 0, sizeof(buffer));
-			strcpy_s(buffer, sizeof(buffer), tag.c_str());
+			std::strncpy(buffer, tag.c_str(), sizeof(buffer));
 			if (ImGui::InputText("##Tag", buffer, sizeof(buffer)))
 			{
 				tag = std::string(buffer);

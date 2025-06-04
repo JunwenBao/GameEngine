@@ -10,15 +10,6 @@ namespace GameEngine {
 		RecalculateProjection();
 	}
 
-	void SceneCamera::SetOrthographic(float size, float nearClip, float farClip)
-	{
-		m_ProjectionType = ProjectionType::Orthographic;
-		m_OrthographicSize = size;
-		m_OrthographicNear = nearClip;
-		m_OrthographicFar = farClip;
-		RecalculateProjection();
-	}
-
 	void SceneCamera::SetPerspective(float verticalFOV, float nearClip, float farClip)
 	{
 		m_ProjectionType = ProjectionType::Perspective;
@@ -28,8 +19,18 @@ namespace GameEngine {
 		RecalculateProjection();
 	}
 
+	void SceneCamera::SetOrthographic(float size, float nearClip, float farClip)
+	{
+		m_ProjectionType = ProjectionType::Orthographic;
+		m_OrthographicSize = size;
+		m_OrthographicNear = nearClip;
+		m_OrthographicFar = farClip;
+		RecalculateProjection();
+	}
+
 	void SceneCamera::SetViewportSize(uint32_t width, uint32_t height)
 	{
+		HZ_CORE_ASSERT(width > 0 && height > 0);
 		m_AspectRatio = (float)width / (float)height;
 		RecalculateProjection();
 	}
@@ -50,6 +51,7 @@ namespace GameEngine {
 			m_Projection = glm::ortho(orthoLeft, orthoRight,
 				orthoBottom, orthoTop, m_OrthographicNear, m_OrthographicFar);
 		}
+
 	}
 
 }

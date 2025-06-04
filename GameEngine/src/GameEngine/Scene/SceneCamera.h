@@ -12,10 +12,10 @@ namespace GameEngine {
 		SceneCamera();
 		virtual ~SceneCamera() = default;
 
-		void SetOrthographic(float size, float nearClip, float farClip);		// 设置正交投影参数
-		void SetPerspective(float verticalFOV, float nearClip, float farClip);  // 设置透视投影参数
+		void SetPerspective(float verticalFOV, float nearClip, float farClip);
+		void SetOrthographic(float size, float nearClip, float farClip);
 
-		void SetViewportSize(uint32_t width, uint32_t height); // 设置视口大小
+		void SetViewportSize(uint32_t width, uint32_t height);
 
 		float GetPerspectiveVerticalFOV() const { return m_PerspectiveFOV; }
 		void SetPerspectiveVerticalFOV(float verticalFov) { m_PerspectiveFOV = verticalFov; RecalculateProjection(); }
@@ -37,10 +37,10 @@ namespace GameEngine {
 		void RecalculateProjection();
 	private:
 		ProjectionType m_ProjectionType = ProjectionType::Orthographic;
-		// 透视投影参数
+
 		float m_PerspectiveFOV = glm::radians(45.0f);
 		float m_PerspectiveNear = 0.01f, m_PerspectiveFar = 1000.0f;
-		// 正交投影参数
+
 		float m_OrthographicSize = 10.0f;
 		float m_OrthographicNear = -1.0f, m_OrthographicFar = 1.0f;
 

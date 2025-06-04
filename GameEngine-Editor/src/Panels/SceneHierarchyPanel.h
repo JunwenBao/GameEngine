@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameEngine/Core/Core.h"
+#include "GameEngine/Core/Base.h"
 #include "GameEngine/Core/Log.h"
 #include "GameEngine/Scene/Scene.h"
 #include "GameEngine/Scene/Entity.h"
@@ -18,6 +18,7 @@ namespace GameEngine {
 		void OnImGuiRender();
 
 		Entity GetSelectedEntity() const { return m_SelectionContext; }
+		void SetSelectedEntity(Entity entity);
 	private:
 		void DrawEntityNode(Entity entity);
 		void DrawComponents(Entity entity);

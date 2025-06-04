@@ -16,7 +16,7 @@ class ParticleSystem
 public:
 	ParticleSystem(uint32_t maxParticles = 1000);
 
-	void OnUpdate(GameEngine::TimeStep ts);
+	void OnUpdate(GameEngine::Timestep ts);
 	void OnRender(GameEngine::OrthographicCamera& camera);
 
 	void Emit(const ParticleProps& particleProps);

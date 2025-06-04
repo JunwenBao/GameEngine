@@ -13,7 +13,7 @@ public:
 	virtual void OnAttach() override;
 	virtual void OnDetach() override;
 
-	void OnUpdate(GameEngine::TimeStep ts) override;
+	void OnUpdate(GameEngine::Timestep ts) override;
 	virtual void OnImGuiRender() override;
 	void OnEvent(GameEngine::Event& e) override;
 private:

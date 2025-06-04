@@ -10,7 +10,7 @@
 
 namespace GameEngine {
 
-	std::optional<std::string> FileDialogs::OpenFile(const char* filter)
+	std::string FileDialogs::OpenFile(const char* filter)
 	{
 		OPENFILENAMEA ofn; // WINDOWS API：用于配置打开文件对话框
 		CHAR szFile[260] = { 0 };     // 存储选择的文件路径
@@ -33,10 +33,10 @@ namespace GameEngine {
 		{
 			return ofn.lpstrFile;
 		}
-		return std::nullopt;
+		return std::string();
 	}
 
-	std::optional<std::string> FileDialogs::SaveFile(const char* filter)
+	std::string FileDialogs::SaveFile(const char* filter)
 	{
 		OPENFILENAMEA ofn;
 		CHAR szFile[260] = { 0 };
@@ -60,7 +60,7 @@ namespace GameEngine {
 		{
 			return ofn.lpstrFile;
 		}
-		return std::nullopt;
+		return std::string();
 	}
 
 }

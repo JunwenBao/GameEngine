@@ -1,8 +1,8 @@
 #pragma once
 
-#include "hzpch.h"
+#include <sstream>
 
-#include "GameEngine/Core/Core.h"
+#include "GameEngine/Core/Base.h"
 #include "GameEngine/Events/Event.h"
 
 namespace GameEngine {
@@ -24,7 +24,7 @@ namespace GameEngine {
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;
 
-		virtual ~Window() {}
+		virtual ~Window() = default;
 
 		virtual void OnUpdate() = 0; //纯虚函数：每帧调用一次，用于窗口的刷新、事件轮询
 

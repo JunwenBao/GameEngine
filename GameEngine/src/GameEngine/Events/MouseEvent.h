@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Event.h"
+#include "GameEngine/Events/Event.h"
+#include "GameEngine/Core/MouseCodes.h"
 
 namespace GameEngine {
 
@@ -30,7 +31,7 @@ namespace GameEngine {
 	class MouseScrolledEvent : public Event
 	{
 	public:
-		MouseScrolledEvent(float xOffset, float yOffset) : m_XOffset(xOffset), m_YOffset(yOffset) {}
+		MouseScrolledEvent(const float xOffset, const float yOffset) : m_XOffset(xOffset), m_YOffset(yOffset) {}
 
 		inline float GetXOffset() const { return m_XOffset; }
 		inline float GetYOffset() const { return m_YOffset; }
@@ -52,20 +53,20 @@ namespace GameEngine {
 	class MouseButtonEvent : public Event
 	{
 	public:
-		inline int GetMouseButton() const { return m_Button; }
+		inline MouseCode GetMouseButton() const { return m_Button; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput | EventCategoryMouseButton)
 	protected:
-		MouseButtonEvent(int button) : m_Button(button) {}
+		MouseButtonEvent(const MouseCode button) : m_Button(button) {}
 
-		int m_Button;
+		MouseCode m_Button;
 	};
 
 	/* 鼠标事件：按键按下 */
 	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(int button) : MouseButtonEvent(button) {}
+		MouseButtonPressedEvent(const MouseCode button) : MouseButtonEvent(button) {}
 
 		std::string ToString() const override
 		{
@@ -81,7 +82,7 @@ namespace GameEngine {
 	class MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {}
+		MouseButtonReleasedEvent(const MouseCode button) : MouseButtonEvent(button) {}
 
 		std::string ToString() const override
 		{

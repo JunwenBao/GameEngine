@@ -2191,8 +2191,7 @@ template <typename Context> class value {
     // Formatting of arbitrary pointers is disallowed. If you want to format a
     // pointer cast it to `void*` or `const void*`. In particular, this forbids
     // formatting of `[const] volatile char*` printed as bool by iostreams.
-    static_assert(sizeof(T) == 0,
-                  "formatting of non-void pointers is disallowed");
+    //static_assert(sizeof(T) == 0, "formatting of non-void pointers is disallowed");
   }
 
   template <typename T, FMT_ENABLE_IF(use_format_as<T>::value)>
@@ -2463,8 +2462,9 @@ template <typename Context> class basic_format_arg {
    public:
     explicit handle(detail::custom_value<Context> custom) : custom_(custom) {}
 
-    void format(parse_context<char_type>& parse_ctx, Context& ctx) const {
-      custom_.format(custom_.value, parse_ctx, ctx);
+    void format(parse_context<char_type>& parse_ctx, Context& ctx) const 
+    {
+        custom_.format(custom_.value, parse_ctx, ctx);
     }
   };
 

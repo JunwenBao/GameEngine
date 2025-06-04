@@ -1,11 +1,11 @@
 #pragma once
 
-#include "GameEngine/Core/Core.h"
+#include "GameEngine/Core/Base.h"
 #include "GameEngine/Events/Event.h"
 #include "GameEngine/Core/TimeStep.h"
 
 namespace GameEngine {
-	class GE_API Layer
+	class Layer
 	{
 	public:
 		Layer(const std::string& name = "Layer");
@@ -13,7 +13,7 @@ namespace GameEngine {
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate(TimeStep ts) {}
+		virtual void OnUpdate(Timestep ts) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 
