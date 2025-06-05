@@ -184,7 +184,16 @@ namespace GameEngine {
 
 	bool SceneSerializer::Deserialize(const std::string& filepath)
 	{
-		YAML::Node data = YAML::LoadFile(filepath); // 将字符串解析成YAML的特殊结构Node
+		/* 将字符串解析成YAML的特殊结构Node */
+		YAML::Node data;
+		try
+		{
+			data = YAML::LoadFile(filepath);
+		}
+		catch (YAML::ParserException e)
+		{
+			return false;
+		}
 
 		// 判断是否包含Scene节点，如果没有则说明该Scene是空的
 		if (!data["Scene"])
