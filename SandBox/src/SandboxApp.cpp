@@ -7,7 +7,7 @@
 class Sandbox : public GameEngine::Application
 {
 public:
-	Sandbox()
+	Sandbox(GameEngine::ApplicationCommandLineArgs args)
 	{
 		// PushLayer(new ExampleLayer());
 		PushLayer(new Sandbox2D());
@@ -20,5 +20,5 @@ public:
 
 GameEngine::Application* GameEngine::CreateApplication(ApplicationCommandLineArgs args)
 {
-	return new Sandbox();
+	return new Sandbox(args);
 }
