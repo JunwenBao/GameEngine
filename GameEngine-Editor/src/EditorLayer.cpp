@@ -11,9 +11,9 @@
 
 namespace GameEngine {
 
-	EditorLayer::EditorLayer()
-		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f })
+	EditorLayer::EditorLayer() : Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f })
 	{
+
 	}
 
 	void EditorLayer::OnAttach()
@@ -226,7 +226,9 @@ namespace GameEngine {
 			ImGui::EndMenuBar();
 		}
 
+		// 更新面板内容
 		m_SceneHierarchyPanel.OnImGuiRender();
+		m_ContentBrowserPanel.OnImGuiRender();
 
 		ImGui::Begin("Stats");
 
@@ -311,7 +313,6 @@ namespace GameEngine {
 				tc.Scale = scale;
 			}
 		}
-
 
 		ImGui::End();
 		ImGui::PopStyleVar();

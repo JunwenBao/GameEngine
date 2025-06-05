@@ -15,10 +15,7 @@
 
 namespace GameEngine {
 
-	ImGuiLayer::ImGuiLayer()
-		: Layer("ImGuiLayer")
-	{
-	}
+	ImGuiLayer::ImGuiLayer() : Layer("ImGuiLayer") { }
 
 	void ImGuiLayer::OnAttach()
 	{
@@ -35,8 +32,10 @@ namespace GameEngine {
 		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
 		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
 
-		io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Bold.ttf", 18.0f);
-		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Regular.ttf", 18.0f);
+		/* ×ÖÌåÉèÖÃ */
+		float fontSize = 18.0f;// *2.0f;Add commentMore actions
+		io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Bold.ttf", fontSize);
+		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/opensans/OpenSans-Regular.ttf", fontSize);
 
 		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();

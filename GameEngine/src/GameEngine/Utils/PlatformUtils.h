@@ -1,7 +1,6 @@
 #pragma
 
 #include <string>
-#include <optional>
 
 namespace GameEngine {
 

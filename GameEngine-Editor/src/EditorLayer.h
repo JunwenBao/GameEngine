@@ -1,7 +1,10 @@
 #pragma once
 
 #include "GameEngine.h"
+
 #include "Panels/SceneHierarchyPanel.h"
+#include "Panels/ContentBrowserPanel.h"
+
 #include "GameEngine/Renderer/EditorCamera.h"
 
 namespace GameEngine
@@ -61,6 +64,7 @@ namespace GameEngine
 
 		// Panels
 		SceneHierarchyPanel m_SceneHierarchyPanel;
+		ContentBrowserPanel m_ContentBrowserPanel;
 	};
 
 }
