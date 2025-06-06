@@ -52,8 +52,8 @@ namespace GameEngine {
 		Ref<Texture2D> WhiteTexture;
 
 		uint32_t QuadIndexCount = 0;
-		QuadVertex* QuadVertexBufferBase = nullptr;
-		QuadVertex* QuadVertexBufferPtr = nullptr;
+		QuadVertex* QuadVertexBufferBase = nullptr; // 批处理：指向顶点缓冲区起始位置
+		QuadVertex* QuadVertexBufferPtr = nullptr;  // 批处理：指向当前写入顶点的位置
 
 		/* 圆形数据 */
 		Ref<VertexArray> CircleVertexArray;
@@ -82,26 +82,14 @@ namespace GameEngine {
 
 	static Renderer2DData s_Data;
 
+
+	// 初始化2D渲染器
 	void Renderer2D::Init()
 	{
 		HZ_PROFILE_FUNCTION();
 
-		s_Data.QuadVertexArray = VertexArray::Create();
-
-		s_Data.QuadVertexBuffer = VertexBuffer::Create(s_Data.MaxVertices * sizeof(QuadVertex));
-		s_Data.QuadVertexBuffer->SetLayout({
-			{ ShaderDataType::Float3, "a_Position"     },
-			{ ShaderDataType::Float4, "a_Color"        },
-			{ ShaderDataType::Float2, "a_TexCoord"     },
-			{ ShaderDataType::Float,  "a_TexIndex"     },
-			{ ShaderDataType::Float,  "a_TilingFactor" },
-			{ ShaderDataType::Int,    "a_EntityID"     }
-			});
-		s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
-
-		s_Data.QuadVertexBufferBase = new QuadVertex[s_Data.MaxVertices];
-
-		uint32_t* quadIndices = new uint32_t[s_Data.MaxIndices];
+		/* 创建一个公共IBO，绑定到VAO中，四边形和圆形公用 */
+		uint32_t* quadIndices = new uint32_t[s_Data.MaxIndices]; // 索引数组，用于存储所有四边形的索引
 
 		uint32_t offset = 0;
 		for (uint32_t i = 0; i < s_Data.MaxIndices; i += 6)
@@ -118,10 +106,27 @@ namespace GameEngine {
 		}
 
 		Ref<IndexBuffer> quadIB = IndexBuffer::Create(quadIndices, s_Data.MaxIndices);
-		s_Data.QuadVertexArray->SetIndexBuffer(quadIB);
 		delete[] quadIndices;
 
-		/* 初始化圆形数据 */
+		/* =========================初始化四边形VAO数据========================= */
+		s_Data.QuadVertexArray = VertexArray::Create();
+
+		/* 创建VBO，绑定Layout */
+		s_Data.QuadVertexBuffer = VertexBuffer::Create(s_Data.MaxVertices * sizeof(QuadVertex));
+		s_Data.QuadVertexBuffer->SetLayout({
+			{ ShaderDataType::Float3, "a_Position"     },
+			{ ShaderDataType::Float4, "a_Color"        },
+			{ ShaderDataType::Float2, "a_TexCoord"     },
+			{ ShaderDataType::Float,  "a_TexIndex"     },
+			{ ShaderDataType::Float,  "a_TilingFactor" },
+			{ ShaderDataType::Int,    "a_EntityID"     }
+			});
+		s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer); // 将VBO绑定到VAO
+		s_Data.QuadVertexArray->SetIndexBuffer(quadIB);
+
+		s_Data.QuadVertexBufferBase = new QuadVertex[s_Data.MaxVertices]; // 创建一块顶点缓冲区
+
+		/* =========================初始化圆形VAO数据========================= */
 		s_Data.CircleVertexArray = VertexArray::Create();
 
 		s_Data.CircleVertexBuffer = VertexBuffer::Create(s_Data.MaxVertices * sizeof(CircleVertex));
@@ -137,7 +142,7 @@ namespace GameEngine {
 		s_Data.CircleVertexArray->SetIndexBuffer(quadIB); // Use quad IB
 		s_Data.CircleVertexBufferBase = new CircleVertex[s_Data.MaxVertices];
 
-		/* 初始化材质数据 */
+		/* =========================初始化材质数据========================= */
 		s_Data.WhiteTexture = Texture2D::Create(1, 1);
 		uint32_t whiteTextureData = 0xffffffff;
 		s_Data.WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
@@ -167,6 +172,7 @@ namespace GameEngine {
 		delete[] s_Data.QuadVertexBufferBase;
 	}
 
+	// 开始场景
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
 		HZ_PROFILE_FUNCTION();
@@ -204,6 +210,7 @@ namespace GameEngine {
 		Flush();
 	}
 
+	// 开启一个新批次：初始化批处理数据
 	void Renderer2D::StartBatch()
 	{
 		s_Data.QuadIndexCount = 0;
@@ -215,6 +222,7 @@ namespace GameEngine {
 		s_Data.TextureSlotIndex = 1;
 	}
 
+	// 把本轮写入的所有顶点/索引数据上传到GPU，并触发一次draw call
 	void Renderer2D::Flush()
 	{
 		if (s_Data.QuadIndexCount)
@@ -314,8 +322,11 @@ namespace GameEngine {
 		constexpr glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
 		const float tilingFactor = 1.0f;
 
+		/* 如果当前Batch可绘制的四边形数量已满，则开始下一个Batch */
 		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
+		{
 			NextBatch();
+		}
 
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
@@ -340,8 +351,11 @@ namespace GameEngine {
 		constexpr size_t quadVertexCount = 4;
 		constexpr glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
 
+		/* 如果当前Batch可绘制的四边形数量已满，则开始下一个Batch */
 		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
+		{
 			NextBatch();
+		}
 
 		float textureIndex = 0.0f;
 		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)
