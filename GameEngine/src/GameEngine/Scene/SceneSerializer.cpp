@@ -140,8 +140,10 @@ namespace GameEngine {
 
 	static void SerializeEntity(YAML::Emitter& out, Entity entity)
 	{
+		HZ_CORE_ASSERT(entity.HasComponent<IDComponent>());
+
 		out << YAML::BeginMap; // Entity
-		out << YAML::Key << "Entity" << YAML::Value << "12837192831273"; // TODO: Entity ID goes here
+		out << YAML::Key << "Entity" << YAML::Value << entity.GetUUID();
 
 		// 序列化Componnet：Tag
 		if (entity.HasComponent<TagComponent>())
@@ -254,7 +256,7 @@ namespace GameEngine {
 
 			SerializeEntity(out, entity);
 		});
-		out << YAML::EndSeq;											 // 结束序列
+		out << YAML::EndSeq;	// 结束序列
 
 		out << YAML::EndMap;	// 结束映射
 
@@ -297,7 +299,7 @@ namespace GameEngine {
 			// 遍历每个Entity
 			for (auto entity : entities)
 			{
-				uint64_t uuid = entity["Entity"].as<uint64_t>(); // TODO
+				uint64_t uuid = entity["Entity"].as<uint64_t>();
 
 				// 读取实体名
 				std::string name;
@@ -306,7 +308,7 @@ namespace GameEngine {
 					name = tagComponent["Tag"].as<std::string>();
 				HZ_CORE_TRACE("Deserialized entity with ID = {0}, name = {1}", uuid, name);
 				// 创建实体
-				Entity deserializedEntity = m_Scene->CreateEntity(name);
+				Entity deserializedEntity = m_Scene->CreateEntityWithUUID(uuid, name);
 
 				// 反序列化Component：Transform
 				auto transformComponent = entity["TransformComponent"];
