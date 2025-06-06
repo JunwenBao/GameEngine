@@ -26,8 +26,13 @@ namespace GameEngine {
 		void OnRuntimeStart();
 		void OnRuntimeStop();
 
+		// 模拟场景
+		void OnSimulationStart();
+		void OnSimulationStop();
+
 		// 将更新函数Update()拆分为编辑器更新函数+运行时更新函数
 		void OnUpdateRuntime(Timestep ts);
+		void OnUpdateSimulation(Timestep ts, EditorCamera& camera);
 		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
 		void OnViewportResize(uint32_t width, uint32_t height);
 
@@ -43,6 +48,11 @@ namespace GameEngine {
 	private:
 		template<typename T>
 		void OnComponentAdded(Entity entity, T& component);
+
+		void OnPhysics2DStart();
+		void OnPhysics2DStop();
+
+		void RenderScene(EditorCamera& camera);
 	private:
 		entt::registry m_Registry;
 		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
