@@ -37,6 +37,16 @@ namespace GameEngine {
 		int EntityID;
 	};
 
+	// 线段顶点数据
+	struct LineVertex
+	{
+		glm::vec3 Position;
+		glm::vec4 Color;
+
+		// Editor-only
+		int EntityID;
+	};
+
 	struct Renderer2DData
 	{
 		/* 预设数据：可以根据游戏实际情况动态调整 */
@@ -63,6 +73,16 @@ namespace GameEngine {
 		uint32_t CircleIndexCount = 0;
 		CircleVertex* CircleVertexBufferBase = nullptr;
 		CircleVertex* CircleVertexBufferPtr = nullptr;
+
+		/* 线段数据 */
+		Ref<VertexArray> LineVertexArray;
+		Ref<VertexBuffer> LineVertexBuffer;
+		Ref<Shader> LineShader;
+
+		LineVertex* LineVertexBufferBase = nullptr;
+		LineVertex* LineVertexBufferPtr = nullptr;
+		uint32_t LineVertexCount = 0;
+		float LineWidth = 2.0f;
 
 		/* 材质数据 */
 		std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
@@ -142,6 +162,18 @@ namespace GameEngine {
 		s_Data.CircleVertexArray->SetIndexBuffer(quadIB); // Use quad IB
 		s_Data.CircleVertexBufferBase = new CircleVertex[s_Data.MaxVertices];
 
+		/* =========================初始化线段VAO数据========================= */
+		s_Data.LineVertexArray = VertexArray::Create();
+
+		s_Data.LineVertexBuffer = VertexBuffer::Create(s_Data.MaxVertices * sizeof(LineVertex));
+		s_Data.LineVertexBuffer->SetLayout({
+			{ ShaderDataType::Float3, "a_Position" },
+			{ ShaderDataType::Float4, "a_Color"    },
+			{ ShaderDataType::Int,    "a_EntityID" }
+		});
+		s_Data.LineVertexArray->AddVertexBuffer(s_Data.LineVertexBuffer);
+		s_Data.LineVertexBufferBase = new LineVertex[s_Data.MaxVertices];
+
 		/* =========================初始化材质数据========================= */
 		s_Data.WhiteTexture = Texture2D::Create(1, 1);
 		uint32_t whiteTextureData = 0xffffffff;
@@ -153,6 +185,7 @@ namespace GameEngine {
 
 		s_Data.QuadShader = Shader::Create("assets/shaders/Renderer2D_Quad.glsl");
 		s_Data.CircleShader = Shader::Create("assets/shaders/Renderer2D_Circle.glsl");
+		s_Data.LineShader = Shader::Create("assets/shaders/Renderer2D_Line.glsl");
 
 		// Set first texture slot to 0
 		s_Data.TextureSlots[0] = s_Data.WhiteTexture;
@@ -219,6 +252,9 @@ namespace GameEngine {
 		s_Data.CircleIndexCount = 0;
 		s_Data.CircleVertexBufferPtr = s_Data.CircleVertexBufferBase;
 
+		s_Data.LineVertexCount = 0;
+		s_Data.LineVertexBufferPtr = s_Data.LineVertexBufferBase;
+
 		s_Data.TextureSlotIndex = 1;
 	}
 
@@ -248,6 +284,17 @@ namespace GameEngine {
 
 			s_Data.CircleShader->Bind();
 			RenderCommand::DrawIndexed(s_Data.CircleVertexArray, s_Data.CircleIndexCount);
+			s_Data.Stats.DrawCalls++;
+		}
+
+		if (s_Data.LineVertexCount)
+		{
+			uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.LineVertexBufferPtr - (uint8_t*)s_Data.LineVertexBufferBase);
+			s_Data.LineVertexBuffer->SetData(s_Data.LineVertexBufferBase, dataSize);
+
+			s_Data.LineShader->Bind();
+			RenderCommand::SetLineWidth(s_Data.LineWidth);
+			RenderCommand::DrawLines(s_Data.LineVertexArray, s_Data.LineVertexCount);
 			s_Data.Stats.DrawCalls++;
 		}
 	}
@@ -393,6 +440,49 @@ namespace GameEngine {
 		s_Data.Stats.QuadCount++;
 	}
 
+	// 绘制线段
+	void Renderer2D::DrawLine(const glm::vec3& p0, glm::vec3& p1, const glm::vec4& color, int entityID)
+	{
+		s_Data.LineVertexBufferPtr->Position = p0;
+		s_Data.LineVertexBufferPtr->Color = color;
+		s_Data.LineVertexBufferPtr->EntityID = entityID;
+		s_Data.LineVertexBufferPtr++;
+
+		s_Data.LineVertexBufferPtr->Position = p1;
+		s_Data.LineVertexBufferPtr->Color = color;
+		s_Data.LineVertexBufferPtr->EntityID = entityID;
+		s_Data.LineVertexBufferPtr++;
+
+		s_Data.LineVertexCount += 2;
+	}
+
+	// 绘制三角形
+	void Renderer2D::DrawRect(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color, int entityID)
+	{
+		glm::vec3 p0 = glm::vec3(position.x - size.x * 0.5f, position.y - size.y * 0.5f, position.z);
+		glm::vec3 p1 = glm::vec3(position.x + size.x * 0.5f, position.y - size.y * 0.5f, position.z);
+		glm::vec3 p2 = glm::vec3(position.x + size.x * 0.5f, position.y + size.y * 0.5f, position.z);
+		glm::vec3 p3 = glm::vec3(position.x - size.x * 0.5f, position.y + size.y * 0.5f, position.z);
+
+		DrawLine(p0, p1, color);
+		DrawLine(p1, p2, color);
+		DrawLine(p2, p3, color);
+		DrawLine(p3, p0, color);
+	}
+
+	// 绘制三角形
+	void Renderer2D::DrawRect(const glm::mat4& transform, const glm::vec4& color, int entityID)
+	{
+		glm::vec3 lineVertices[4];
+		for (size_t i = 0; i < 4; i++)
+			lineVertices[i] = transform * s_Data.QuadVertexPositions[i];
+
+		DrawLine(lineVertices[0], lineVertices[1], color);
+		DrawLine(lineVertices[1], lineVertices[2], color);
+			DrawLine(lineVertices[2], lineVertices[3], color);
+		DrawLine(lineVertices[3], lineVertices[0], color);
+	}
+
 	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
 	{
 		DrawRotatedQuad({ position.x, position.y, 0.0f }, size, rotation, color);
@@ -445,6 +535,16 @@ namespace GameEngine {
 	Renderer2D::Statistics Renderer2D::GetStats()
 	{
 		return s_Data.Stats;
+	}
+
+	float Renderer2D::GetLineWidth()
+	{
+		return s_Data.LineWidth;
+	}
+
+	void Renderer2D::SetLineWidth(float width)
+	{
+		s_Data.LineWidth = width;
 	}
 
 }
