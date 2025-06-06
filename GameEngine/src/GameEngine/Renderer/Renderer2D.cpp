@@ -479,7 +479,7 @@ namespace GameEngine {
 
 		DrawLine(lineVertices[0], lineVertices[1], color);
 		DrawLine(lineVertices[1], lineVertices[2], color);
-			DrawLine(lineVertices[2], lineVertices[3], color);
+		DrawLine(lineVertices[2], lineVertices[3], color);
 		DrawLine(lineVertices[3], lineVertices[0], color);
 	}
 
