@@ -440,6 +440,65 @@ namespace GameEngine {
 		s_Data.Stats.QuadCount++;
 	}
 
+	// 绘制四边形：支持传入UV，以实现动画切换，主要服务于动画组件
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, 
+							  float tilingFactor, const glm::vec4& tintColor, int entityID, 
+							  const glm::vec2& minUV, const glm::vec2& maxUV)
+	{
+		HZ_PROFILE_FUNCTION();
+
+		constexpr size_t quadVertexCount = 4;
+
+		/* 如果当前Batch可绘制的四边形数量已满，则开始下一个Batch */
+		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
+		{
+			NextBatch();
+		}
+
+		float textureIndex = 0.0f;
+		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)
+		{
+			if (*s_Data.TextureSlots[i] == *texture)
+			{
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		if (textureIndex == 0.0f)
+		{
+			if (s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
+				NextBatch();
+
+			textureIndex = (float)s_Data.TextureSlotIndex;
+			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
+			s_Data.TextureSlotIndex++;
+		}
+
+		// 手动插值 UV 坐标
+		glm::vec2 textureCoords[] = {
+			{ minUV.x, minUV.y }, // 左下
+			{ maxUV.x, minUV.y }, // 右下
+			{ maxUV.x, maxUV.y }, // 右上
+			{ minUV.x, maxUV.y }  // 左上
+		};
+
+		for (size_t i = 0; i < quadVertexCount; i++)
+		{
+			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
+			s_Data.QuadVertexBufferPtr->Color = tintColor;
+			s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i];
+			s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+			s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+			s_Data.QuadVertexBufferPtr->EntityID = entityID;
+			s_Data.QuadVertexBufferPtr++;
+		}
+
+		s_Data.QuadIndexCount += 6;
+
+		s_Data.Stats.QuadCount++;
+	}
+
 	// 绘制线段
 	void Renderer2D::DrawLine(const glm::vec3& p0, glm::vec3& p1, const glm::vec4& color, int entityID)
 	{
@@ -515,13 +574,15 @@ namespace GameEngine {
 		DrawQuad(transform, texture, tilingFactor, tintColor);
 	}
 
+	/* 绘制组件SpriteRenderer的主要函数 */
 	void Renderer2D::DrawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID)
 	{
 		if (src.Texture)
 		{
-			DrawQuad(transform, src.Texture, src.TilingFactor, src.Color, entityID);
+			// TODO：这里应该考虑多样性问题，如果绘制的四边形不需要UV怎么办？
+			DrawQuad(transform, src.Texture, src.TilingFactor, src.Color, entityID, src.MinUV, src.MaxUV);
 		}
-		else
+		else if(!src.Texture)
 		{
 			DrawQuad(transform, src.Color, entityID);
 		}

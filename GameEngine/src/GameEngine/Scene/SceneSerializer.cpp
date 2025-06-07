@@ -270,6 +270,22 @@ namespace GameEngine {
 			out << YAML::EndMap; // CircleCollider2DComponent
 		}
 
+		/* 序列化Componnet：Animation */
+		if (entity.HasComponent<AnimationComponent>())
+		{
+			out << YAML::Key << "AnimationComponent";
+			out << YAML::BeginMap;
+
+			auto& cc2dComponent = entity.GetComponent<AnimationComponent>();
+			out << YAML::Key << "Offset" << YAML::Value << cc2dComponent.SpriteSize;
+			out << YAML::Key << "Radius" << YAML::Value << cc2dComponent.FrameSize;
+			out << YAML::Key << "Density" << YAML::Value << cc2dComponent.FrameCount;
+			out << YAML::Key << "Friction" << YAML::Value << cc2dComponent.FrameDuration;
+			out << YAML::Key << "Restitution" << YAML::Value << cc2dComponent.Loop;
+
+			out << YAML::EndMap;
+		}
+
 		out << YAML::EndMap; // EntityAdd commentMore actions
 	}
 
@@ -424,6 +440,18 @@ namespace GameEngine {
 					cc2d.Friction = circleCollider2DComponent["Friction"].as<float>();
 					cc2d.Restitution = circleCollider2DComponent["Restitution"].as<float>();
 					cc2d.RestitutionThreshold = circleCollider2DComponent["RestitutionThreshold"].as<float>();
+				}
+
+				/* 反序列化Component：Animation */
+				auto animationComponent = entity["AnimationComponent"];
+				if (animationComponent)
+				{
+					auto& anim = deserializedEntity.AddComponent<AnimationComponent>();
+					anim.SpriteSize = animationComponent["SpriteSize"].as<glm::vec2>();
+					anim.FrameSize = animationComponent["FrameSize"].as<glm::vec2>();
+					anim.FrameCount = animationComponent["FrameCount"].as<int>();
+					anim.FrameDuration = animationComponent["FrameDuration"].as<float>();
+					anim.Loop = animationComponent["Loop"].as<bool>();
 				}
 			}
 		}

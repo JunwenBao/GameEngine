@@ -65,6 +65,9 @@ namespace GameEngine {
 		Ref<Texture2D> Texture;
 		float TilingFactor = 1.0f;
 
+		glm::vec2 MinUV = { 0.0f, 0.0f }; // 采样子区域左下角
+		glm::vec2 MaxUV = { 1.0f, 1.0f }; // 采样子区域右上角
+
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
 		SpriteRendererComponent(const glm::vec4& color) : Color(color) {}
@@ -157,6 +160,21 @@ namespace GameEngine {
 
 		CircleCollider2DComponent() = default;
 		CircleCollider2DComponent(const CircleCollider2DComponent&) = default;
+	};
+
+	// 动画组件
+	struct AnimationComponent
+	{
+		Ref<Texture2D> SpriteSheet;
+		glm::vec2 SpriteSize = { 128.0f, 32.0f }; // 每帧大小
+		glm::vec2 FrameSize = { 32.0f, 32.0f };   // 每帧大小
+		int FrameCount = 4;						  // 帧数
+		float FrameDuration = 0.1f;				  // 每帧时间（秒）
+		bool Loop = true;						  // 是否循环
+
+		// 运行时状态
+		int CurrentFrame = 0;
+		float ElapsedTime = 0.0f;
 	};
 
 }

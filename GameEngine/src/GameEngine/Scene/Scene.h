@@ -38,6 +38,8 @@ namespace GameEngine {
 
 		void DuplicateEntity(Entity entity);
 
+		void OnUpdateAnimation(Timestep ts);
+
 		Entity GetPrimaryCameraEntity();
 
 		template<typename... Components>

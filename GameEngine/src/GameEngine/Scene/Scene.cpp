@@ -127,6 +127,9 @@ namespace GameEngine {
 			}
 		}
 
+		/* 更新动画 */
+		OnUpdateAnimation(ts);
+
 		// Render 2D
 		Camera* mainCamera = nullptr;
 		glm::mat4 cameraTransform;
@@ -205,6 +208,59 @@ namespace GameEngine {
 	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
 	{
 		RenderScene(camera);
+	}
+
+	// 更新动画
+	void Scene::OnUpdateAnimation(Timestep ts)
+	{
+		auto view = m_Registry.view<AnimationComponent, SpriteRendererComponent>();
+		for(auto entity : view)
+		{
+			HZ_CORE_INFO("Aniamtion");
+
+			AnimationComponent& anim = view.get<AnimationComponent>(entity);
+			SpriteRendererComponent& sr = view.get<SpriteRendererComponent>(entity);
+
+			anim.ElapsedTime += ts;
+
+			if (anim.ElapsedTime >= anim.FrameDuration)
+			{
+				anim.ElapsedTime = 0.0f;
+				anim.CurrentFrame++;
+
+				if (anim.CurrentFrame >= anim.FrameCount)
+				{
+					if (anim.Loop) anim.CurrentFrame = 0;
+					else anim.CurrentFrame = anim.FrameCount - 1; // 停在最后一帧
+				}
+			}
+
+			if (anim.SpriteSheet)
+			{
+				uint32_t sheetWidth = anim.SpriteSize.x;
+				uint32_t sheetHeight = anim.SpriteSize.y;
+
+				glm::vec2 frameSize = anim.FrameSize; // 像素大小
+
+				// 假设是横向排列
+				int columnCount = sheetWidth / frameSize.x;
+				int row = anim.CurrentFrame / columnCount;
+				int column = anim.CurrentFrame % columnCount;
+
+				glm::vec2 min = {
+					(column * frameSize.x) / sheetWidth,
+					(row * frameSize.y) / sheetHeight
+				};
+				glm::vec2 max = {
+					((column + 1) * frameSize.x) / sheetWidth,
+					((row + 1) * frameSize.y) / sheetHeight
+				};
+
+				sr.Texture = anim.SpriteSheet;
+				sr.MinUV = min;
+				sr.MaxUV = max;
+			}
+		}
 	}
 
 	// 开始2D物理模拟
@@ -372,6 +428,7 @@ namespace GameEngine {
 		CopyComponentIfExists<Rigidbody2DComponent>(newEntity, entity);
 		CopyComponentIfExists<BoxCollider2DComponent>(newEntity, entity);
 		CopyComponentIfExists<CircleCollider2DComponent>(newEntity, entity);
+		CopyComponentIfExists<AnimationComponent>(newEntity, entity);
 	}
 
 	Ref<Scene> Scene::Copy(Ref<Scene> other)
@@ -404,6 +461,7 @@ namespace GameEngine {
 		CopyComponent<Rigidbody2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<BoxCollider2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 		CopyComponent<CircleCollider2DComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
+		CopyComponent<AnimationComponent>(dstSceneRegistry, srcSceneRegistry, enttMap);
 
 		return newScene;
 	}
@@ -468,4 +526,8 @@ namespace GameEngine {
 	{
 	}
 
+	template<>
+	void Scene::OnComponentAdded<AnimationComponent>(Entity entity, AnimationComponent& component)
+	{
+	}
 }
