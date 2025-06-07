@@ -277,11 +277,11 @@ namespace GameEngine {
 			out << YAML::BeginMap;
 
 			auto& cc2dComponent = entity.GetComponent<AnimationComponent>();
-			out << YAML::Key << "Offset" << YAML::Value << cc2dComponent.SpriteSize;
-			out << YAML::Key << "Radius" << YAML::Value << cc2dComponent.FrameSize;
-			out << YAML::Key << "Density" << YAML::Value << cc2dComponent.FrameCount;
-			out << YAML::Key << "Friction" << YAML::Value << cc2dComponent.FrameDuration;
-			out << YAML::Key << "Restitution" << YAML::Value << cc2dComponent.Loop;
+			out << YAML::Key << "SpriteSize" << YAML::Value << cc2dComponent.SpriteSize;
+			out << YAML::Key << "FrameSize" << YAML::Value << cc2dComponent.FrameSize;
+			out << YAML::Key << "FrameCount" << YAML::Value << cc2dComponent.FrameCount;
+			out << YAML::Key << "FrameDuration" << YAML::Value << cc2dComponent.FrameDuration;
+			out << YAML::Key << "Loop" << YAML::Value << cc2dComponent.Loop;
 
 			out << YAML::EndMap;
 		}
@@ -448,10 +448,13 @@ namespace GameEngine {
 				{
 					auto& anim = deserializedEntity.AddComponent<AnimationComponent>();
 					anim.SpriteSize = animationComponent["SpriteSize"].as<glm::vec2>();
+					HZ_CORE_INFO("-----DEBUG-----");
 					anim.FrameSize = animationComponent["FrameSize"].as<glm::vec2>();
 					anim.FrameCount = animationComponent["FrameCount"].as<int>();
 					anim.FrameDuration = animationComponent["FrameDuration"].as<float>();
 					anim.Loop = animationComponent["Loop"].as<bool>();
+					anim.CurrentFrame = 0;
+					anim.ElapsedTime = 0;
 				}
 			}
 		}

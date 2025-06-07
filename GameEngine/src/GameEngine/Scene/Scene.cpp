@@ -216,8 +216,6 @@ namespace GameEngine {
 		auto view = m_Registry.view<AnimationComponent, SpriteRendererComponent>();
 		for(auto entity : view)
 		{
-			HZ_CORE_INFO("Aniamtion");
-
 			AnimationComponent& anim = view.get<AnimationComponent>(entity);
 			SpriteRendererComponent& sr = view.get<SpriteRendererComponent>(entity);
 

@@ -1,16 +1,20 @@
 Scene: Untitled
 Entities:
-  - Entity: 18295683984091656116
+  - Entity: 9757447212076586665
     TagComponent:
-      Tag: Empty Entity
+      Tag: Knight
     TransformComponent:
-      Translation: [2.5, 0, 0]
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    CircleRendererComponent:
+      Scale: [3, 3, 1]
+    SpriteRendererComponent:
       Color: [1, 1, 1, 1]
-      Thickness: 1
-      Fade: 0.00499999989
+    AnimationComponent:
+      SpriteSize: [128, 32]
+      FrameSize: [32, 32]
+      FrameCount: 4
+      FrameDuration: 0.100000001
+      Loop: true
   - Entity: 5194497356864800583
     TagComponent:
       Tag: Camera
@@ -29,12 +33,14 @@ Entities:
         OrthographicFar: 1
       Primary: true
       FixedAspectRatio: false
-  - Entity: 9757447212076586665
+  - Entity: 18295683984091656116
     TagComponent:
-      Tag: Knight
+      Tag: Empty Entity
     TransformComponent:
-      Translation: [0, 0, 0]
+      Translation: [2.5, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-    SpriteRendererComponent:
+    CircleRendererComponent:
       Color: [1, 1, 1, 1]
+      Thickness: 1
+      Fade: 0.00499999989
