@@ -1,0 +1,69 @@
+Scene: Untitled
+Entities:
+  - Entity: 18295683984091656116
+    TagComponent:
+      Tag: Empty Entity
+    TransformComponent:
+      Translation: [-0.0193310976, -1.57126355, 0]
+      Rotation: [0, 0, 0]
+      Scale: [4.72263288, 2.62701344, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TexturePath: assets\textures\Platform.png
+      TilingFactor: 1
+    Rigidbody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 1]
+      Size: [0.5, 0.25]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+  - Entity: 5194497356864800583
+    TagComponent:
+      Tag: Camera
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        PerspectiveNear: 0.00999999978
+        PerspectiveFar: 1000
+        OrthographicSize: 10
+        OrthographicNear: -1
+        OrthographicFar: 1
+      Primary: true
+      FixedAspectRatio: false
+  - Entity: 9757447212076586665
+    TagComponent:
+      Tag: Knight
+    TransformComponent:
+      Translation: [0, 1.86674261, 0]
+      Rotation: [0, 0, 0]
+      Scale: [3, 3, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TexturePath: assets\textures\Knight.png
+      TilingFactor: 1
+    Rigidbody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, -0.100000001]
+      Size: [0.25, 0.360000014]
+      Density: 1
+      Friction: 0.5
+      Restitution: 0
+      RestitutionThreshold: 0.5
+    AnimationComponent:
+      TexturePath: assets\textures\Knight Idle.png
+      SpriteSize: [128, 32]
+      FrameSize: [32, 32]
+      FrameCount: 4
+      FrameDuration: 0.100000001
+      Loop: true
