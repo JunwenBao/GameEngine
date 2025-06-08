@@ -61,7 +61,7 @@ namespace GameEngine {
 	/* ×é¼þ£ºSprite Renderer */
 	struct SpriteRendererComponent
 	{
-		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 1.0f };
+		glm::vec4 Color{ 1.0f, 1.0f, 1.0f, 0.0f };
 		Ref<Texture2D> Texture;
 		float TilingFactor = 1.0f;
 

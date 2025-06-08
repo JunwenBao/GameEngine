@@ -45,57 +45,7 @@ namespace GameEngine {
 		}
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
-
-#if 0
-		// Entity
-		auto square = m_ActiveScene->CreateEntity("Green Square");
-		square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
-
-		auto redSquare = m_ActiveScene->CreateEntity("Red Square");
-		redSquare.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
-
-		m_SquareEntity = square;
-
-		m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
-		m_CameraEntity.AddComponent<CameraComponent>();
-
-		m_SecondCamera = m_ActiveScene->CreateEntity("Camera B");
-		auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
-		cc.Primary = false;
-
-		class CameraController : public ScriptableEntity
-		{
-		public:
-			virtual void OnCreate() override
-			{
-				auto& translation = GetComponent<TransformComponent>().Translation;
-				translation.x = rand() % 10 - 5.0f;
-			}
-
-			virtual void OnDestroy() override
-			{
-			}
-
-			virtual void OnUpdate(Timestep ts) override
-			{
-				auto& translation = GetComponent<TransformComponent>().Translation;
-
-				float speed = 5.0f;
-
-				if (Input::IsKeyPressed(Key::A))
-					translation.x -= speed * ts;
-				if (Input::IsKeyPressed(Key::D))
-					translation.x += speed * ts;
-				if (Input::IsKeyPressed(Key::W))
-					translation.y += speed * ts;
-				if (Input::IsKeyPressed(Key::S))
-					translation.y -= speed * ts;
-			}
-		};
-
-		m_CameraEntity.AddComponent<NativeScriptComponent>().Bind<CameraController>();
-		m_SecondCamera.AddComponent<NativeScriptComponent>().Bind<CameraController>();
-#endif
+		Renderer2D::SetLineWidth(4.0f);
 	}
 
 	void EditorLayer::OnDetach()
@@ -277,6 +227,7 @@ namespace GameEngine {
 		ImGui::End();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
+		ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0, 0, 0, 0)); // 完全透明
 		ImGui::Begin("Viewport");
 		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
 		auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
@@ -356,6 +307,7 @@ namespace GameEngine {
 		}
 
 		ImGui::End();
+		ImGui::PopStyleColor(); // 恢复背景色
 		ImGui::PopStyleVar();
 
 		UI_Toolbar();
@@ -538,6 +490,13 @@ namespace GameEngine {
 					Renderer2D::DrawCircle(transform, glm::vec4(0, 1, 0, 1), 0.05f);
 				}
 			}
+		}
+
+		// Draw selected entity outline 
+		if (Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity())
+		{
+			const TransformComponent& transform = selectedEntity.GetComponent<TransformComponent>();
+			Renderer2D::DrawRect(transform.GetTransform(), glm::vec4(1.0f, 0.5f, 0.0f, 1.0f));
 		}
 
 		Renderer2D::EndScene();

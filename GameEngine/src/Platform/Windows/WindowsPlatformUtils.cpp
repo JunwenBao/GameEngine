@@ -10,6 +10,11 @@
 
 namespace GameEngine {
 
+	float Time::GetTime()
+	{
+		return glfwGetTime();
+	}
+
 	std::string FileDialogs::OpenFile(const char* filter)
 	{
 		OPENFILENAMEA ofn; // WINDOWS API：用于配置打开文件对话框
@@ -43,7 +48,6 @@ namespace GameEngine {
 		CHAR currentDir[256] = { 0 };
 		ZeroMemory(&ofn, sizeof(OPENFILENAME));
 		ofn.lStructSize = sizeof(OPENFILENAME);
-
 		ofn.hwndOwner = glfwGetWin32Window((GLFWwindow*)Application::Get().GetWindow().GetNativeWindow());
 		ofn.lpstrFile = szFile;
 		ofn.nMaxFile = sizeof(szFile);
@@ -57,9 +61,8 @@ namespace GameEngine {
 		ofn.lpstrDefExt = strchr(filter, '\0') + 1;
 
 		if (GetSaveFileNameA(&ofn) == TRUE)
-		{
 			return ofn.lpstrFile;
-		}
+
 		return std::string();
 	}
 

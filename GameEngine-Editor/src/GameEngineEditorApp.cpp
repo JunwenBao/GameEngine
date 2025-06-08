@@ -12,11 +12,6 @@ namespace GameEngine {
 		{
 			PushLayer(new EditorLayer());
 		}
-
-		~GameEngineEditor()
-		{
-
-		}
 	};
 
 	Application* CreateApplication(ApplicationCommandLineArgs args)

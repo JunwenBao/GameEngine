@@ -206,6 +206,13 @@ namespace GameEngine {
 			auto& spriteRendererComponent = entity.GetComponent<SpriteRendererComponent>();
 			out << YAML::Key << "Color" << YAML::Value << spriteRendererComponent.Color;
 
+			if (spriteRendererComponent.Texture)
+			{
+				out << YAML::Key << "TexturePath" << YAML::Value << spriteRendererComponent.Texture->GetPath();
+			}
+
+			out << YAML::Key << "TilingFactor" << YAML::Value << spriteRendererComponent.TilingFactor;
+
 			out << YAML::EndMap; // SpriteRendererComponent
 		}
 
@@ -277,6 +284,12 @@ namespace GameEngine {
 			out << YAML::BeginMap;
 
 			auto& cc2dComponent = entity.GetComponent<AnimationComponent>();
+
+			if (cc2dComponent.SpriteSheet)
+			{
+				out << YAML::Key << "TexturePath" << YAML::Value << cc2dComponent.SpriteSheet->GetPath();
+			}
+
 			out << YAML::Key << "SpriteSize" << YAML::Value << cc2dComponent.SpriteSize;
 			out << YAML::Key << "FrameSize" << YAML::Value << cc2dComponent.FrameSize;
 			out << YAML::Key << "FrameCount" << YAML::Value << cc2dComponent.FrameCount;
@@ -395,6 +408,16 @@ namespace GameEngine {
 				{
 					auto& src = deserializedEntity.AddComponent<SpriteRendererComponent>();
 					src.Color = spriteRendererComponent["Color"].as<glm::vec4>();
+
+					if (spriteRendererComponent["TexturePath"])
+					{
+						src.Texture = Texture2D::Create(spriteRendererComponent["TexturePath"].as<std::string>());
+					}
+
+					if (spriteRendererComponent["TilingFactor"])
+					{
+						src.TilingFactor = spriteRendererComponent["TilingFactor"].as<float>();
+					}
 				}
 
 				/* ∑¥–Ú¡–ªØComponent£∫Circle Renderer */
@@ -447,8 +470,11 @@ namespace GameEngine {
 				if (animationComponent)
 				{
 					auto& anim = deserializedEntity.AddComponent<AnimationComponent>();
+					if (animationComponent["TexturePath"])
+					{
+						anim.SpriteSheet = Texture2D::Create(animationComponent["TexturePath"].as<std::string>());
+					}
 					anim.SpriteSize = animationComponent["SpriteSize"].as<glm::vec2>();
-					HZ_CORE_INFO("-----DEBUG-----");
 					anim.FrameSize = animationComponent["FrameSize"].as<glm::vec2>();
 					anim.FrameCount = animationComponent["FrameCount"].as<int>();
 					anim.FrameDuration = animationComponent["FrameDuration"].as<float>();
